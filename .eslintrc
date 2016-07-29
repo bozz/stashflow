@@ -1,0 +1,12 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "arrow-body-style": 0,
+    "quotes": [2, "single"],
+    "no-console": 0,
+    "no-unused-vars": 0,
+    "react/display-name": 0,
+    "react/prop-types": 0,
+    "react/no-multi-comp": 0
+  }
+}
