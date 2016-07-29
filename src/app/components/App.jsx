@@ -4,7 +4,7 @@ const App = ({ children }) => {
   return (
     <div>
       <div className="container">
-        <h1>React-Redux-Boilerplate</h1>
+        <h1>stashflow</h1>
         {children}
       </div>
     </div>

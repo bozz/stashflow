@@ -1,7 +1,7 @@
 {
-  "name": "react-redux-boilerplate",
+  "name": "stashflow",
   "version": "1.0.0",
-  "description": "Basic boilerplate for react-redux projects",
+  "description": "",
   "scripts": {
     "dev": "webpack-dev-server --config ./config/webpack-dev.config.js --watch --colors",
     "build": "rm -rf dist && webpack --config ./config/webpack-prod.config.js --colors",
@@ -18,7 +18,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bozz/react-redux-boilerplate"
+    "url": "git+https://github.com/bozz/stashflow"
   },
   "author": "Boris Searles",
   "license": "MIT",
