@@ -1,13 +1,36 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito:400,300);
 
+$lightTextColor: #e0e0e0;
+
 body {
-  margin: 0;
-  padding: 0;
+  background-color: #011016;
   font-family: 'Nunito', sans-serif;
   font-size: 16px;
+  margin: 0;
+  padding: 0;
 }
 
-.container {
-  width: 100%;
-  text-align: center;
+header {
+  color: $lightTextColor;
+  height: 60px;
 }
+
+#filter-panel {
+  background-color: #009DA1;
+  // background-color: #F5F5F5;
+  color: $lightTextColor;
+  height: 60px;
+  margin-bottom: 20px;
+}
+
+.transaction {
+  background-color: #1C4044;
+  // background-color: #009DA1;
+  border: none;
+  color: $lightTextColor;
+}
+
+// .container {
+//   width: 100%;
+//   text-align: center;
+// }

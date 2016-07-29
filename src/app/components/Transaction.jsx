@@ -1,5 +1,6 @@
 import React from 'react';
+import { Panel } from 'react-bootstrap';
 
 export default ({ id, name }) => (
-  <div>{name}</div>
+  <Panel className="transaction">{name}</Panel>
 );

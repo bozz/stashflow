@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Header from './Header';
+import Filter from './Filter';
 import TransactionList from './TransactionList';
 
 const mapStateToProps = (state) => {
@@ -27,6 +28,7 @@ const App = ({ children }) => {
   return (
     <div>
       <Header />
+      <Filter />
       <VisibleTransactionList />
     </div>
   );
