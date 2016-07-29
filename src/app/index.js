@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { loadState, saveState } from './utils/localStorage';
@@ -22,8 +23,28 @@ store.subscribe(throttle(() => {
   saveState(store.getState());
 }, 1000));
 
+const rootEl = document.getElementById('root');
 ReactDOM.render(
-  <Provider store={store} >
-    <App />
-  </Provider>
-, document.getElementById('root'));
+  <AppContainer>
+    <Provider store={store} >
+      <App />
+    </Provider>
+  </AppContainer>
+  , rootEl
+);
+
+if (module.hot) {
+  module.hot.accept('./components/App', () => {
+    // If you use Webpack 2 in ES modules mode, you can
+    // use <App /> here rather than require() a <NextApp />.
+    const NextApp = require('./components/App').default;
+    ReactDOM.render(
+      <AppContainer>
+        <Provider store={store} >
+          <NextApp />
+        </Provider>
+      </AppContainer>,
+      rootEl
+    );
+  });
+}

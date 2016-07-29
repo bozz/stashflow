@@ -4,11 +4,5 @@
     "react",
     "stage-1"
   ],
-  "env": {
-    "dev": {
-      "presets": [
-        "react-hmre"
-      ]
-    }
-  }
+  "plugins": ["react-hot-loader/babel"]
 }
