@@ -23,11 +23,23 @@ header {
   margin-bottom: 20px;
 }
 
+.transaction-list {
+  padding-top: 20px;
+
+  .toolbar {
+    margin-bottom: 20px;
+  }
+}
+
 .transaction {
   background-color: #1C4044;
   // background-color: #009DA1;
   border: none;
   color: $lightTextColor;
+
+  .delete {
+    float: right;
+  }
 }
 
 // .container {

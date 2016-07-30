@@ -11,6 +11,8 @@ const transactions = (state = [], action) => {
           name: 'New Transaction'
         }
       ];
+    case 'DELETE_TRANSACTION':
+      return state.filter(transaction => transaction.id !== action.id);
     default:
       return state;
   }

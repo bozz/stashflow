@@ -15,6 +15,12 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({
         type: 'ADD_TRANSACTION'
       });
+    },
+    onDeleteTransactionClick: (id) => {
+      dispatch({
+        type: 'DELETE_TRANSACTION',
+        id
+      });
     }
   };
 };

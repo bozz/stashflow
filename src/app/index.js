@@ -33,6 +33,7 @@ ReactDOM.render(
   , rootEl
 );
 
+// needed for react-hot-loader 3 beta (https://github.com/gaearon/react-hot-boilerplate/pull/61)
 if (module.hot) {
   module.hot.accept('./components/App', () => {
     // If you use Webpack 2 in ES modules mode, you can
