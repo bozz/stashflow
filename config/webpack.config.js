@@ -12,6 +12,7 @@ module.exports = (options) => {
       'react-hot-loader/patch',
       `webpack-dev-server/client?http://localhost:${+ options.port}`,
       'webpack/hot/only-dev-server',
+      'bootstrap-loader',
       Path.join(__dirname, '../src/app/index'),
     ],
     output: {
@@ -22,11 +23,20 @@ module.exports = (options) => {
       extensions: ['', '.js', '.jsx'],
     },
     module: {
-      loaders: [{
-        test: /.jsx?$/,
-        include: Path.join(__dirname, '../src/app'),
-        loader: 'babel',
-      }],
+      loaders: [
+        // Needed for the css-loader when [bootstrap-webpack](https://github.com/bline/bootstrap-webpack)
+        // loads bootstrap's css.
+        { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,   loader: "url?limit=10000&mimetype=application/font-woff" },
+        { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,  loader: "url?limit=10000&mimetype=application/font-woff" },
+        { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&mimetype=application/octet-stream" },
+        { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,    loader: "file" },
+        { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&mimetype=image/svg+xml" },
+        {
+          test: /.jsx?$/,
+          include: Path.join(__dirname, '../src/app'),
+          loader: 'babel',
+        }
+      ],
     },
     plugins: [
       new Webpack.DefinePlugin({

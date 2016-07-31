@@ -10,8 +10,6 @@ import App from './components/App';
 
 import reducers from './reducers';
 
-import './components/bundle.scss';
-
 // restore the state
 const persistedState = loadState();
 

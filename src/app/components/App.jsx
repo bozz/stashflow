@@ -32,7 +32,7 @@ const VisibleTransactionList = connect(
 
 const App = ({ children }) => {
   return (
-    <div>
+    <div className="container-fluid">
       <Header />
       <Filter />
       <VisibleTransactionList />

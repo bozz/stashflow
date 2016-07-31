@@ -1,9 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito:400,300);
 
-$lightTextColor: #e0e0e0;
-
 body {
-  background-color: #011016;
   font-family: 'Nunito', sans-serif;
   font-size: 16px;
   margin: 0;
@@ -11,17 +8,31 @@ body {
 }
 
 header {
-  color: $lightTextColor;
   height: 60px;
 }
 
+/* Basic Layout */
+
+.container-fluid {
+  padding: 0;
+}
+.container-row {
+  @extend .row;
+}
+.column {
+  @extend .col-md-6;
+  @extend .col-md-offset-3;
+}
+
+/* Filter Panel */
+
 #filter-panel {
-  background-color: #009DA1;
-  // background-color: #F5F5F5;
-  color: $lightTextColor;
+  background-color: $cyan;
   height: 60px;
   margin-bottom: 20px;
 }
+
+/* Transaction List */
 
 .transaction-list {
   padding-top: 20px;
@@ -32,17 +43,10 @@ header {
 }
 
 .transaction {
-  background-color: #1C4044;
-  // background-color: #009DA1;
+  background-color: $background-dark-1;
   border: none;
-  color: $lightTextColor;
 
   .delete {
     float: right;
   }
 }
-
-// .container {
-//   width: 100%;
-//   text-align: center;
-// }

@@ -1,14 +1,11 @@
 import React from 'react';
+import ContentRow from './ContentContainer';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 export default () => (
   <header>
-    <Grid fluid>
-      <Row>
-        <Col md={6} mdOffset={3}>
-          <h1>stashflow</h1>
-        </Col>
-      </Row>
-    </Grid>
+    <ContentRow>
+      <h1>stashflow</h1>
+    </ContentRow>
   </header>
 );
