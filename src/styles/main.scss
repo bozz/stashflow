@@ -7,10 +7,6 @@ body {
   padding: 0;
 }
 
-header {
-  height: 60px;
-}
-
 /* Basic Layout */
 
 .container-fluid {
@@ -22,6 +18,14 @@ header {
 .column {
   @extend .col-md-6;
   @extend .col-md-offset-3;
+}
+
+/* Header */
+
+header .navbar-default {
+  background-color: transparent;
+  border-color: transparent;
+  margin-bottom: 0;
 }
 
 /* Filter Panel */
@@ -45,6 +49,21 @@ header {
 .transaction {
   background-color: $background-dark-1;
   border: none;
+
+  .date {
+    display: inline-block;
+    width: 130px;
+  }
+  .amount {
+    display: inline-block;
+    margin-right: 40px;
+    text-align: right;
+    width: 100px;
+  }
+  .name {
+    display: inline-block;
+    width: 300px;
+  }
 
   .delete {
     float: right;

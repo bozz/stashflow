@@ -1,15 +1,13 @@
 import { combineReducers } from 'redux';
-import uuid from 'uuid';
 
 const transactions = (state = [], action) => {
   switch (action.type) {
+    case 'DELETE_ALL_DATA':
+      return [];
     case 'ADD_TRANSACTION':
       return [
         ...state,
-        {
-          id: uuid.v4(),
-          name: 'New Transaction'
-        }
+        action.data
       ];
     case 'DELETE_TRANSACTION':
       return state.filter(transaction => transaction.id !== action.id);

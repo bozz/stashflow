@@ -4,36 +4,48 @@ import Header from './Header';
 import Filter from './Filter';
 import TransactionList from './TransactionList';
 
-const mapStateToProps = (state) => {
+import * as actions from '../actions';
+import { generateData } from '../utils/generateData';
+
+const mapHeaderDispatchToProps = (dispatch) => {
+  return {
+    onGenerateDummyDataClick: () => {
+      generateData(dispatch);
+    },
+    onDeleteDataClick: () => {
+      dispatch(actions.deleteAllData());
+    }
+  };
+};
+const AppHeader = connect(
+  null,
+  mapHeaderDispatchToProps
+)(Header);
+
+const mapTransactionStateToProps = (state) => {
   return {
     transactions: state.transactions
   };
 };
-const mapDispatchToProps = (dispatch) => {
+const mapTransactionDispatchToProps = (dispatch) => {
   return {
     onNewTransactionClick: () => {
-      dispatch({
-        type: 'ADD_TRANSACTION'
-      });
+      dispatch(actions.addTransaction());
     },
     onDeleteTransactionClick: (id) => {
-      dispatch({
-        type: 'DELETE_TRANSACTION',
-        id
-      });
+      dispatch(actions.deleteTransaction(id));
     }
   };
 };
-
 const VisibleTransactionList = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapTransactionStateToProps,
+  mapTransactionDispatchToProps
 )(TransactionList);
 
 const App = ({ children }) => {
   return (
     <div className="container-fluid">
-      <Header />
+      <AppHeader />
       <Filter />
       <VisibleTransactionList />
     </div>
