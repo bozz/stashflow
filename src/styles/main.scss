@@ -32,10 +32,17 @@ $filterHeight: 50;
   @extend .col-md-offset-3;
 }
 
+#data-view-container {
+  position: fixed;
+  top: ($headerHeight + $filterHeight) + px;
+  width: 100%;
+  z-index: 100;
+}
+
 .container-row.toolbar {
 
   position: fixed;
-  top: ($headerHeight + $filterHeight + 20) + px;
+  top: ($headerHeight + $filterHeight + 70) + px;
   width: 100%;
 
   .column {
@@ -102,6 +109,8 @@ header {
 /* Transaction List */
 
 .transaction-list {
+  margin-top: 50px;
+  overflow: hidden;
   padding-top: 20px;
 
   .toolbar {
@@ -139,4 +148,21 @@ header {
     right: 10px;
     top: 10px;
   }
+}
+
+/* Data Views */
+
+#data-view-container {
+  background-color: $base00;
+  color: $base2;
+}
+
+#view-simple-sums {
+    height: 40px;
+
+    span {
+      display: inline-block;
+      margin-right: 30px;
+      margin-top: 10px;
+    }
 }

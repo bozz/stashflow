@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Header from './Header';
 import Filter from './Filter';
+import DataViewContainer from './DataViewContainer';
 import TransactionList from './TransactionList';
 
 const App = ({ children }) => {
@@ -8,6 +9,7 @@ const App = ({ children }) => {
     <div className="container-fluid">
       <Header />
       <Filter />
+      <DataViewContainer />
       <TransactionList />
     </div>
   );
