@@ -5,9 +5,9 @@ import Transaction from './Transaction';
 
 export default ({ transactions, onNewTransactionClick, onDeleteTransactionClick }) => (
   <div className="transaction-list">
-    <ContentRow>
-      <ButtonToolbar className="toolbar">
-        <Button bsStyle="primary" onClick={onNewTransactionClick}>
+    <ContentRow className="toolbar">
+      <ButtonToolbar>
+        <Button className="fab" bsStyle="primary" onClick={onNewTransactionClick}>
           <Glyphicon glyph="plus" />
         </Button>
       </ButtonToolbar>

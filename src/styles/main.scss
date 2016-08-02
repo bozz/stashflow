@@ -9,6 +9,14 @@ body {
 
 /* Basic Layout */
 
+$headerHeight: 50;
+$filterHeight: 50;
+
+#root {
+  padding-top: ($headerHeight + $filterHeight) + px;
+  position: relative;
+}
+
 .container-fluid {
   padding: 0;
 }
@@ -20,20 +28,71 @@ body {
   @extend .col-md-offset-3;
 }
 
+.container-row.toolbar {
+
+  position: fixed;
+  top: ($headerHeight + $filterHeight + 20) + px;
+  width: 100%;
+
+  .column {
+    @extend .col-md-8;
+    @extend .col-md-offset-2;
+
+    padding-left: 100px;
+  }
+}
+
+/* Widgets */
+
+.fab {
+  background-color: $cyan;
+  border: none;
+  border-radius: 50%;
+  color: $base2;
+  padding: 0;
+  height: 40px;
+  vertical-align: middle;
+  width: 40px;
+}
+.fab:hover {
+  background-color: darken($cyan, 10%);
+  border-color: transparent;
+  color: $base2;
+}
+.fab:active {
+  background-color: darken($cyan, 20%);
+  color: $base2;
+}
+
 /* Header */
 
-header .navbar-default {
-  background-color: transparent;
-  border-color: transparent;
-  margin-bottom: 0;
+header {
+
+  background-color: $background-dark-2;
+  height: $headerHeight + px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+
+  .navbar-default {
+    background-color: transparent;
+    border-color: transparent;
+    margin-bottom: 0;
+  }
 }
 
 /* Filter Panel */
 
 #filter-panel {
   background-color: $cyan;
-  height: 60px;
-  margin-bottom: 20px;
+  color: $base2;
+  height: $filterHeight + px;
+  padding-top: 8px;
+  position: fixed;
+  top: $headerHeight + px;
+  width: 100%;
+  z-index: 110;
 }
 
 /* Transaction List */
