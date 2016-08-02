@@ -1,5 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito:400,300);
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   font-family: 'Nunito', sans-serif;
   font-size: 16px;
@@ -9,7 +13,7 @@ body {
 
 /* Basic Layout */
 
-$headerHeight: 50;
+$headerHeight: 55;
 $filterHeight: 50;
 
 #root {
@@ -73,7 +77,7 @@ header {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 100;
+  z-index: 110;
 
   .navbar-default {
     background-color: transparent;
@@ -92,7 +96,7 @@ header {
   position: fixed;
   top: $headerHeight + px;
   width: 100%;
-  z-index: 110;
+  z-index: 100;
 }
 
 /* Transaction List */
@@ -108,6 +112,12 @@ header {
 .transaction {
   background-color: $background-dark-1;
   border: none;
+  border-radius: 4px;
+  position: relative;
+
+  span {
+    margin: 10px;
+  }
 
   .date {
     display: inline-block;
@@ -125,6 +135,8 @@ header {
   }
 
   .delete {
-    float: right;
+    position: absolute;
+    right: 10px;
+    top: 10px;
   }
 }

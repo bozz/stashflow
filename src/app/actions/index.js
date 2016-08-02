@@ -1,4 +1,5 @@
 import uuid from 'uuid';
+import moment from 'moment';
 
 /*
  * action types
@@ -33,7 +34,8 @@ export function deleteAllData() {
 }
 
 export function addTransaction(props = {
-  name: 'Null Transaction'
+  name: '<empty>',
+  date: moment().format('YYYY-MM-DD')
 }) {
   return {
     type: ADD_TRANSACTION,
