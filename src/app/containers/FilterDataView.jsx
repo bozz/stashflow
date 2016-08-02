@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ContentRow from './ContentContainer';
+import ContentWrapper from '../components/ContentWrapper';
 import SimpleSumsView from './dataViews/SimpleSumsView';
 
 const DataViewContainer = (props) => (
   <section id="data-view-container">
-    <ContentRow>
+    <ContentWrapper>
       <SimpleSumsView {...props} />
-    </ContentRow>
+    </ContentWrapper>
   </section>
 );
 

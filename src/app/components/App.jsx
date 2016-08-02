@@ -1,20 +1,18 @@
-import React, { PropTypes } from 'react';
-import Header from './Header';
+import React from 'react';
+import Header from '../containers/Header';
 import Filter from './Filter';
-import DataViewContainer from './DataViewContainer';
-import TransactionList from './TransactionList';
+import FilterDataView from '../containers/FilterDataView';
+import VisibleTransactionList from '../containers/VisibleTransactionList';
 
-const App = ({ children }) => {
+const App = () => {
   return (
     <div className="container-fluid">
       <Header />
       <Filter />
-      <DataViewContainer />
-      <TransactionList />
+      <FilterDataView />
+      <VisibleTransactionList />
     </div>
   );
 };
-
-App.propTypes = { children: PropTypes.object };
 
 export default App;

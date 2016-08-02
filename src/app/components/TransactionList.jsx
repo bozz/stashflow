@@ -1,10 +1,8 @@
 import React from 'react';
 import { TransitionMotion, spring, presets } from 'react-motion';
-import { connect } from 'react-redux';
 import { ButtonToolbar, Button, Glyphicon } from 'react-bootstrap';
-import ContentRow from './ContentContainer';
+import ContentWrapper from './ContentWrapper';
 import Transaction from './Transaction';
-import * as actions from '../actions';
 
 const getStyles = (transactions) => {
   return transactions.map(props => ({
@@ -37,20 +35,20 @@ const willLeave = () => {
 const TransactionList = ({ transactions, onNewTransactionClick, onDeleteTransactionClick }) => {
   return (
     <div className="transaction-list">
-      <ContentRow className="toolbar dogs">
+      <ContentWrapper className="toolbar">
         <ButtonToolbar>
           <Button className="fab" bsStyle="primary" onClick={onNewTransactionClick}>
             <Glyphicon glyph="plus" />
           </Button>
         </ButtonToolbar>
-      </ContentRow>
+      </ContentWrapper>
       <TransitionMotion
         willEnter={willEnter}
         willLeave={willLeave}
         styles={getStyles(transactions)}
       >
         {styles =>
-          <ContentRow>
+          <ContentWrapper>
           {styles.map((props) =>
             <Transaction
               key={props.key}
@@ -59,43 +57,11 @@ const TransactionList = ({ transactions, onNewTransactionClick, onDeleteTransact
               {...props.data}
             />
           )}
-          </ContentRow>
+          </ContentWrapper>
         }
       </TransitionMotion>
     </div>
   );
 };
 
-
-// TODO: find better way to handle sorting - use reselect!
-const sortTransactions = transactions => {
-  return transactions.sort((a, b) => {
-    if (a.date < b.date) {
-      return 1;
-    } else if (a.date > b.date) {
-      return -1;
-    }
-    return 0;
-  });
-};
-
-const mapStateToProps = (state) => {
-  return {
-    transactions: sortTransactions(state.transactions)
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onNewTransactionClick: () => {
-      dispatch(actions.addTransaction());
-    },
-    onDeleteTransactionClick: (id) => {
-      dispatch(actions.deleteTransaction(id));
-    }
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TransactionList);
+export default TransactionList;

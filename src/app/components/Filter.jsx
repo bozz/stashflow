@@ -1,10 +1,10 @@
 import React from 'react';
-import ContentRow from './ContentContainer';
+import ContentWrapper from './ContentWrapper';
 import { Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
 export default () => (
   <div id="filter-panel">
-    <ContentRow>
+    <ContentWrapper>
       <Form inline>
         <FormGroup controlId="formInlineName">
           <ControlLabel>Filter:</ControlLabel>
@@ -16,6 +16,6 @@ export default () => (
           </FormControl>
         </FormGroup>
       </Form>
-    </ContentRow>
+    </ContentWrapper>
   </div>
 );
