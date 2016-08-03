@@ -44,7 +44,8 @@ initialState.filters = {
   }
 };
 initialState.ui = {
-  currentFilter: 2
+  currentFilter: 2,
+  filterSettingsExpanded: false
 };
 
 const store = createStore(reducers, initialState,

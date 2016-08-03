@@ -12,6 +12,7 @@ export const ADD_TRANSACTION = 'ADD_TRANSACTION';
 export const DELETE_TRANSACTION = 'DELETE_TRANSACTION';
 
 export const CHANGE_CURRENT_FILTER = 'CHANGE_CURRENT_FILTER';
+export const TOGGLE_FILTER_SETTINGS = 'TOGGLE_FILTER_SETTINGS';
 
 /*
  * other constants
@@ -54,4 +55,8 @@ export function deleteTransaction(id) {
 
 export function changeCurrentFilter(id) {
   return { type: CHANGE_CURRENT_FILTER, id };
+}
+
+export function toggleFilterSettings() {
+  return { type: TOGGLE_FILTER_SETTINGS };
 }

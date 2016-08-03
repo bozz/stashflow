@@ -27,6 +27,11 @@ const ui = (state = {}, action) => {
         ...state,
         currentFilter: parseInt(action.id, 10)
       };
+    case 'TOGGLE_FILTER_SETTINGS':
+      return {
+        ...state,
+        filterSettingsExpanded: !state.filterSettingsExpanded
+      };
     default:
       return state;
   }

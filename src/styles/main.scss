@@ -75,6 +75,16 @@ $filterHeight: 50;
   color: $base2;
 }
 
+.toggle-button {
+  background-color: transparent;
+  border-color: transparent;
+  color: $base2;
+}
+.toggle-button:hover {
+  background-color: transparent;
+  border-color: transparent;
+}
+
 /* Header */
 
 header {
