@@ -11,6 +11,8 @@ export const DELETE_ALL_DATA = 'DELETE_ALL_DATA';
 export const ADD_TRANSACTION = 'ADD_TRANSACTION';
 export const DELETE_TRANSACTION = 'DELETE_TRANSACTION';
 
+export const CHANGE_CURRENT_FILTER = 'CHANGE_CURRENT_FILTER';
+
 /*
  * other constants
  */
@@ -48,4 +50,8 @@ export function addTransaction(props = {
 
 export function deleteTransaction(id) {
   return { type: DELETE_TRANSACTION, id };
+}
+
+export function changeCurrentFilter(id) {
+  return { type: CHANGE_CURRENT_FILTER, id };
 }

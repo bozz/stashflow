@@ -16,6 +16,24 @@ const transactions = (state = [], action) => {
   }
 };
 
-const rootReducer = combineReducers({ transactions });
+const filters = (state = {}, action) => {
+  return state;
+};
 
-export default rootReducer;
+const ui = (state = {}, action) => {
+  switch (action.type) {
+    case 'CHANGE_CURRENT_FILTER':
+      return {
+        ...state,
+        currentFilter: parseInt(action.id, 10)
+      };
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
+  transactions,
+  filters,
+  ui
+});

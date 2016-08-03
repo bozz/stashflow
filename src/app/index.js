@@ -11,10 +11,45 @@ import App from './components/App';
 import reducers from './reducers';
 
 // restore the state
-const persistedState = loadState();
+const initialState = loadState();
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
-const store = createStoreWithMiddleware(reducers, persistedState);
+// tmp state extension
+initialState.filters = {
+  1: {
+    id: 1,
+    name: 'Dashboard',
+    view: 'DashboardView',
+    accounts: ['all'],
+    categories: ['all'],
+    tags: ['all'],
+    query: '',
+    dateFrom: '2016-01-01',
+    dateTo: '2016-08-01',
+    amountFrom: 0,
+    amountTo: 5000,
+  },
+  2: {
+    id: 2,
+    name: 'Simple Sums',
+    view: 'SimpleSumsView',
+    dateFrom: '2016-01-01',
+    dateTo: '2016-08-01',
+  },
+  3: {
+    id: 3,
+    name: 'Simple Sums Q1 2016',
+    view: 'SimpleSumsView',
+    dateFrom: '2016-01-01',
+    dateTo: '2016-03-31',
+  }
+};
+initialState.ui = {
+  currentFilter: 2
+};
+
+const store = createStore(reducers, initialState,
+  window.devToolsExtension && window.devToolsExtension()
+);
 
 // persist the state
 store.subscribe(throttle(() => {

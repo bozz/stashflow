@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import * as selectors from '../../selectors';
 
-const transactionSelector = state => state.transactions;
 const totalExpenseSelector = createSelector(
-  transactionSelector,
+  selectors.filteredTransactionsSelector,
   (items) => items.reduce((acc, item) => acc + (item.amount || 0), 0)
 );
 
@@ -18,7 +18,7 @@ const SimpleSumsView = ({ transactionCount, expenseSum, incomeSum }) => (
 
 const mapStateToProps = (state) => {
   return {
-    transactionCount: state.transactions.length,
+    transactionCount: selectors.filteredTransactionsCountSelector(state),
     expenseSum: totalExpenseSelector(state),
     incomeSum: 0
   };

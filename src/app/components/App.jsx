@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../containers/Header';
-import Filter from './Filter';
+import Filter from '../containers/Filter';
 import FilterDataView from '../containers/FilterDataView';
 import VisibleTransactionList from '../containers/VisibleTransactionList';
 
