@@ -9,6 +9,7 @@
     "arrow-body-style": 0,
     "comma-dangle": 0,
     "quotes": [2, "single"],
+    "max-len": 0,
     "global-require": 0,
     "no-console": 0,
     "no-unused-vars": 0,

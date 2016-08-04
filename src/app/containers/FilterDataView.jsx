@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { currentFilterSelector } from '../selectors';
-import ContentWrapper from '../components/ContentWrapper';
+import Section from '../components/Section';
 
 import * as DataViews from './dataViews';
 
@@ -9,11 +9,9 @@ const DataViewContainer = ({ filter }) => {
   const View = DataViews[filter.view];
   const currentView = View ? <View /> : false;
   return (
-    <section id="data-view-container">
-      <ContentWrapper>
-        {currentView}
-      </ContentWrapper>
-    </section>
+    <Section id="filter-data-view">
+      {currentView}
+    </Section>
   );
 };
 

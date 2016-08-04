@@ -1,8 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
-import ContentWrapper from './ContentWrapper';
+import Section from './Section';
 import FilterSettings from './FilterSettings';
-import { Form, FormGroup, ControlLabel, FormControl, Button, Glyphicon } from 'react-bootstrap';
+import Select from 'react-select';
 
 export default ({ filters, currentFilter, filterSettingsExpanded,
   onFilterSelectChanged, onToggleFilterSettingsClick
@@ -12,25 +12,22 @@ export default ({ filters, currentFilter, filterSettingsExpanded,
   if (filterSettingsExpanded) {
     filterSettings = <FilterSettings filter={filters[currentFilter]} />;
   }
+  const options = Object.keys(filters).map(key => (
+    { value: parseInt(key, 10), label: filters[key].name }
+  ));
   return (
     <div id="filter-panel">
-      <ContentWrapper>
-        <Form inline>
-          <FormGroup controlId="filter-select">
-            <ControlLabel>Filter:</ControlLabel>
-            {' '}
-            <FormControl
-              componentClass="select"
-              placeholder="dashboard"
-              value={currentFilter}
-              onChange={(e) => onFilterSelectChanged(e.target.value)}
-            >
-              {Object.keys(filters).map(key => (
-                <option key={key} value={key}>{filters[key].name}</option>
-              ))}
-              <option value="other">...</option>
-            </FormControl>
-          </FormGroup>
+      <Section id="filter-toolbar">
+        <label htmlFor="filter-select">Filter:</label>
+        {' '}
+        <Select
+          name="filter-select"
+          value={currentFilter}
+          options={options}
+          onChange={(opt) => onFilterSelectChanged(opt.value)}
+          clearable={false}
+        />
+        <div className="controls">
           <button
             type="button"
             className="toggle-button pull-right"
@@ -47,8 +44,8 @@ export default ({ filters, currentFilter, filterSettingsExpanded,
               aria-hidden="true"
             ></span>
           </button>
-        </Form>
-      </ContentWrapper>
+        </div>
+      </Section>
       {filterSettings}
     </div>
   );

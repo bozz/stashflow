@@ -6,7 +6,7 @@ import VisibleTransactionList from '../containers/VisibleTransactionList';
 
 const App = () => {
   return (
-    <div className="container-fluid">
+    <div id="container">
       <Header />
       <Filter />
       <FilterDataView />

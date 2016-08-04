@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
 import moment from 'moment';
 
 export default ({ id, name, date, amount, style, onDeleteTransactionClick }) => {
@@ -8,12 +7,11 @@ export default ({ id, name, date, amount, style, onDeleteTransactionClick }) => 
     <span className="date">{moment(date).format('DD.MM.YYYY')}</span>
     <span className="amount">{mAmount.toFixed(2)} EUR</span>
     <span className="name">{name}</span>
-    <Button
+    <button
       className="delete"
-      bsStyle="danger"
       onClick={() => {
         onDeleteTransactionClick(id);
       }}
-    >x</Button>
+    >x</button>
   </div>);
 };

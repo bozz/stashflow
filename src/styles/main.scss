@@ -1,56 +1,64 @@
+@import './purecss';
+@import 'solarized-palette';
+
 @import url(https://fonts.googleapis.com/css?family=Nunito:400,300);
 
 html {
-  overflow-y: scroll;
+  overflow: hidden;
+}
+
+html, button, input, select, textarea,
+.pure-g [class *= "pure-u"] {
+  /* Set your content font stack here: */
+  font-family: 'Nunito', sans-serif;
 }
 
 body {
-  font-family: 'Nunito', sans-serif;
+  background-color: $background-dark-2;
+  color: $content-2;
   font-size: 16px;
   margin: 0;
   padding: 0;
 }
 
+h1 {
+  font-size: 1.5em;
+  margin: 0;
+}
+
 /* Basic Layout */
 
-$headerHeight: 55;
-$filterHeight: 50;
-
-#root {
-  padding-top: ($headerHeight + $filterHeight) + px;
-  position: relative;
+#container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
 }
 
-.container-fluid {
-  padding: 0;
-}
-.container-row {
-  @extend .row;
-}
-.column {
-  @extend .col-md-6;
-  @extend .col-md-offset-3;
-}
-
-#data-view-container {
-  position: fixed;
-  top: ($headerHeight + $filterHeight) + px;
+section {
   width: 100%;
-  z-index: 100;
+}
+section > .row {
+  margin: 0 auto;
+  width: 700px;
 }
 
-.container-row.toolbar {
-
-  position: fixed;
-  top: ($headerHeight + $filterHeight + 70) + px;
-  width: 100%;
-
-  .column {
-    @extend .col-md-8;
-    @extend .col-md-offset-2;
-
-    padding-left: 100px;
-  }
+#header {
+  height: 50px;
+}
+#filter-toolbar {
+  height: 50px;
+}
+#filter-data-view {
+  height: 40px;
+}
+#transaction-list {
+  flex: 1;
+  overflow-y: scroll;
 }
 
 /* Widgets */
@@ -87,44 +95,57 @@ $filterHeight: 50;
 
 /* Header */
 
-header {
+#header {
 
-  background-color: $background-dark-2;
-  height: $headerHeight + px;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 110;
-
-  .navbar-default {
-    background-color: transparent;
-    border-color: transparent;
-    margin-bottom: 0;
+  .row {
+    display: flex;
+    padding-top: .8em;
+  }
+  .branding {
+    flex: 1;
+  }
+  .menu {
+    flex: 1;
+    text-align: right;
   }
 }
 
 /* Filter Panel */
 
-#filter-panel {
+#filter-toolbar {
   background-color: $cyan;
   color: $base2;
-  height: $filterHeight + px;
   padding-top: 8px;
-  position: fixed;
-  top: $headerHeight + px;
-  width: 100%;
-  z-index: 100;
+
+  > .row {
+    align-items: center;
+    display: flex;
+
+    > label {
+      width: 60px;
+    }
+    > .Select {
+      width: 220px;
+    }
+    > .controls {
+      flex: 1;
+      text-align: right;
+    }
+  }
 }
 
 /* Transaction List */
 
-.transaction-list {
-  margin-top: 50px;
-  overflow: hidden;
+#transaction-list {
   padding-top: 20px;
 
+  > .row {
+    position: relative;
+  }
   .toolbar {
+    left: -50px;
     margin-bottom: 20px;
+    position: absolute;
   }
 }
 
@@ -163,7 +184,7 @@ header {
 
 /* Data Views */
 
-#data-view-container {
+#filter-data-view {
   background-color: $base00;
   color: $base2;
   min-height: 40px;

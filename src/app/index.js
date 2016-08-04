@@ -10,6 +10,9 @@ import App from './components/App';
 
 import reducers from './reducers';
 
+import 'react-select/dist/react-select.css';
+import '../styles/main.scss';
+
 // restore the state
 const initialState = loadState();
 

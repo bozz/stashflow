@@ -1,7 +1,6 @@
 import React from 'react';
 import { TransitionMotion, spring, presets } from 'react-motion';
-import { ButtonToolbar, Button, Glyphicon } from 'react-bootstrap';
-import ContentWrapper from './ContentWrapper';
+import Section from './Section';
 import Transaction from './Transaction';
 
 const getStyles = (transactions) => {
@@ -34,21 +33,19 @@ const willLeave = () => {
 
 const TransactionList = ({ transactions, onNewTransactionClick, onDeleteTransactionClick }) => {
   return (
-    <div className="transaction-list">
-      <ContentWrapper className="toolbar">
-        <ButtonToolbar>
-          <Button className="fab" bsStyle="primary" onClick={onNewTransactionClick}>
-            <Glyphicon glyph="plus" />
-          </Button>
-        </ButtonToolbar>
-      </ContentWrapper>
+    <Section id="transaction-list">
+      <div className="toolbar">
+        <button className="fab" type="button" onClick={onNewTransactionClick}>
+          <i className="fa-plus"></i>
+        </button>
+      </div>
       <TransitionMotion
         willEnter={willEnter}
         willLeave={willLeave}
         styles={getStyles(transactions)}
       >
         {styles =>
-          <ContentWrapper>
+          <div>
           {styles.map((props) =>
             <Transaction
               key={props.key}
@@ -57,10 +54,10 @@ const TransactionList = ({ transactions, onNewTransactionClick, onDeleteTransact
               {...props.data}
             />
           )}
-          </ContentWrapper>
+          </div>
         }
       </TransitionMotion>
-    </div>
+    </Section>
   );
 };
 

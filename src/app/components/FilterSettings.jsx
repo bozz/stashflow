@@ -1,12 +1,11 @@
 import React from 'react';
-import ContentWrapper from './ContentWrapper';
-import { Button } from 'react-bootstrap';
 import moment from 'moment';
+import Section from './Section';
 
 export default (props) => {
   return (
-    <ContentWrapper>
-      <div id="filter-settings">Settings... {props.name}</div>
-    </ContentWrapper>
+    <Section id="fitler-settings">
+      <p>Settings... {props.name}</p>
+    </Section>
   );
 };

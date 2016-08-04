@@ -3,32 +3,30 @@ import { connect } from 'react-redux';
 import { deleteAllData } from '../actions';
 import { generateData } from '../utils/generateData';
 
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Glyphicon } from 'react-bootstrap';
-import ContentWrapper from '../components/ContentWrapper';
+import Section from '../components/Section';
 
 const Header = ({ dispatch }) => (
-  <header>
-    <ContentWrapper>
-      <Navbar fluid>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href="#">stashflow</a>
-          </Navbar.Brand>
-        </Navbar.Header>
-        <Nav pullRight>
-          <NavDropdown
-            title={<Glyphicon glyph="cog" />}
-            id="basic-nav-dropdown"
-          >
-            <MenuItem onClick={() => { generateData(dispatch); }}>Generate data</MenuItem>
-            <MenuItem onClick={() => { dispatch(deleteAllData()); }}>Clear all data</MenuItem>
-            <MenuItem divider />
-            <MenuItem>Separated link</MenuItem>
-          </NavDropdown>
-        </Nav>
-      </Navbar>
-    </ContentWrapper>
-  </header>
+  <Section id="header">
+    <div className="branding">
+      <h1>stashflow</h1>
+    </div>
+    <div className="menu pure-menu pure-menu-horizontal">
+      <ul className="pure-menu-list">
+        <li className="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+          <a href="#" id="menuLink1" className="pure-menu-link">Settings</a>
+          <ul className="pure-menu-children">
+            <li className="pure-menu-item">
+              <a href="#" className="pure-menu-link" onClick={() => { generateData(dispatch); }}>Generate data</a>
+            </li>
+            <li className="pure-menu-item">
+              <a href="#" className="pure-menu-link" onClick={() => { dispatch(deleteAllData()); }}>Clear all data</a>
+            </li>
+            <li className="pure-menu-item"><a href="#" className="pure-menu-link">Lorem Ipsum</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </Section>
 );
 
 export default connect()(Header);
