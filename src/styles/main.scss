@@ -26,6 +26,10 @@ h1 {
   margin: 0;
 }
 
+button:focus {
+  outline:0;
+}
+
 /* Basic Layout */
 
 #container {
@@ -52,6 +56,9 @@ section > .row {
 }
 #filter-toolbar {
   height: 50px;
+}
+#filter-settings {
+  height: 200px;
 }
 #filter-data-view {
   height: 40px;
@@ -132,6 +139,12 @@ section > .row {
       text-align: right;
     }
   }
+}
+
+#filter-settings {
+  background-color: darken($cyan, 20%);
+  color: $base2;
+  padding-top: 8px;
 }
 
 /* Transaction List */
