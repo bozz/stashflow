@@ -36,7 +36,7 @@ const TransactionList = ({ transactions, onNewTransactionClick, onDeleteTransact
     <Section id="transaction-list">
       <div className="toolbar">
         <button className="fab" type="button" onClick={onNewTransactionClick}>
-          <i className="fa-plus"></i>
+          <i className="fa fa-plus"></i>
         </button>
       </div>
       <TransitionMotion

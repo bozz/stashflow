@@ -35,14 +35,14 @@ export default ({ filters, currentFilter, filterSettingsExpanded,
           >
             {toggleSettingsLabel}
             {' '}
-            <span
+            <i
               className={classnames({
-                glyphicon: true,
-                'glyphicon-menu-down': !filterSettingsExpanded,
-                'glyphicon-menu-up': filterSettingsExpanded
+                fa: true,
+                'fa-chevron-down': !filterSettingsExpanded,
+                'fa-chevron-up': filterSettingsExpanded
               })}
               aria-hidden="true"
-            ></span>
+            ></i>
           </button>
         </div>
       </Section>
