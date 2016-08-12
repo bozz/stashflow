@@ -58,7 +58,7 @@ section > .row {
   height: 50px;
 }
 #filter-settings {
-  height: 200px;
+  height: 0;
 }
 #filter-data-view {
   height: 40px;
@@ -144,7 +144,7 @@ section > .row {
 #filter-settings {
   background-color: darken($cyan, 20%);
   color: $base2;
-  padding-top: 8px;
+  overflow: hidden;
 }
 
 /* Transaction List */

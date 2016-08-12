@@ -8,10 +8,6 @@ export default ({ filters, currentFilter, filterSettingsExpanded,
   onFilterSelectChanged, onToggleFilterSettingsClick
 }) => {
   const toggleSettingsLabel = filterSettingsExpanded ? 'Hide' : 'Expand';
-  let filterSettings;
-  if (filterSettingsExpanded) {
-    filterSettings = <FilterSettings filter={filters[currentFilter]} />;
-  }
   const options = Object.keys(filters).map(key => (
     { value: parseInt(key, 10), label: filters[key].name }
   ));
@@ -46,7 +42,7 @@ export default ({ filters, currentFilter, filterSettingsExpanded,
           </button>
         </div>
       </Section>
-      {filterSettings}
+      <FilterSettings isExpanded={filterSettingsExpanded} filter={filters[currentFilter]} />
     </div>
   );
 };
