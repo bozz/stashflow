@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 
 const transactions = (state = [], action) => {
   switch (action.type) {
@@ -40,5 +41,6 @@ const ui = (state = {}, action) => {
 export default combineReducers({
   transactions,
   filters,
-  ui
+  ui,
+  form: formReducer
 });

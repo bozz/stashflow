@@ -62,6 +62,7 @@
     "react-redux": "^4.4.5",
     "react-select": "^1.0.0-beta14",
     "redux": "^3.5.2",
+    "redux-form": "^6.0.2",
     "reselect": "^2.5.3"
   }
 }

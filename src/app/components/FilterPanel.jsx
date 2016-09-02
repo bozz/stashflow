@@ -1,8 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
+import Select from 'react-select';
 import Section from './Section';
 import FilterSettings from './FilterSettings';
-import Select from 'react-select';
 
 export default ({ filters, currentFilter, filterSettingsExpanded,
   onFilterSelectChanged, onToggleFilterSettingsClick
