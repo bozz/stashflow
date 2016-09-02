@@ -2,12 +2,12 @@ import React from 'react';
 import classnames from 'classnames';
 import Select from 'react-select';
 import Section from './Section';
-import FilterSettings from './FilterSettings';
+import FilterForm from '../containers/FilterForm';
 
-export default ({ filters, currentFilter, filterSettingsExpanded,
-  onFilterSelectChanged, onToggleFilterSettingsClick
+export default ({ filters, currentFilter, filterFormExpanded,
+  onFilterSelectChanged, onToggleFilterFormClick
 }) => {
-  const toggleSettingsLabel = filterSettingsExpanded ? 'Hide' : 'Expand';
+  const toggleSettingsLabel = filterFormExpanded ? 'Hide' : 'Expand';
   const options = Object.keys(filters).map(key => (
     { value: parseInt(key, 10), label: filters[key].name }
   ));
@@ -27,22 +27,22 @@ export default ({ filters, currentFilter, filterSettingsExpanded,
           <button
             type="button"
             className="toggle-button pull-right"
-            onClick={onToggleFilterSettingsClick}
+            onClick={onToggleFilterFormClick}
           >
             {toggleSettingsLabel}
             {' '}
             <i
               className={classnames({
                 fa: true,
-                'fa-chevron-down': !filterSettingsExpanded,
-                'fa-chevron-up': filterSettingsExpanded
+                'fa-chevron-down': !filterFormExpanded,
+                'fa-chevron-up': filterFormExpanded
               })}
               aria-hidden="true"
             ></i>
           </button>
         </div>
       </Section>
-      <FilterSettings isExpanded={filterSettingsExpanded} filter={filters[currentFilter]} />
+      <FilterForm isExpanded={filterFormExpanded} />
     </div>
   );
 };

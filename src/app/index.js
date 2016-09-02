@@ -36,6 +36,7 @@ initialState.filters = {
     id: 2,
     name: 'Simple Sums',
     view: 'SimpleSumsView',
+    query: 'foo',
     dateFrom: '2016-01-01',
     dateTo: '2016-08-01',
   },
@@ -49,7 +50,7 @@ initialState.filters = {
 };
 initialState.ui = {
   currentFilter: 2,
-  filterSettingsExpanded: false
+  filterFormExpanded: false
 };
 
 const store = createStore(reducers, initialState,

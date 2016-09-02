@@ -6,7 +6,7 @@ const mapStateToProps = (state) => {
   return {
     filters: state.filters,
     currentFilter: state.ui.currentFilter,
-    filterSettingsExpanded: state.ui.filterSettingsExpanded
+    filterFormExpanded: state.ui.filterFormExpanded
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -14,8 +14,8 @@ const mapDispatchToProps = (dispatch) => {
     onFilterSelectChanged: (id) => {
       dispatch(actions.changeCurrentFilter(id));
     },
-    onToggleFilterSettingsClick: () => {
-      dispatch(actions.toggleFilterSettings());
+    onToggleFilterFormClick: () => {
+      dispatch(actions.toggleFilterForm());
     }
   };
 };
