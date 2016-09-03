@@ -3,10 +3,13 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { Motion, spring } from 'react-motion';
 import moment from 'moment';
+import * as actions from '../actions';
 import Section from '../components/Section';
 import SelectionComponent from '../components/SelectionComponent';
 
-let FilterForm = ({ isExpanded }) => {
+let FilterForm = (props) => {
+  const { isExpanded, handleSubmit, pristine, submitting } = props;
+
   const accountOptions = [
     { value: 'all', label: 'all' }
   ];
@@ -19,7 +22,7 @@ let FilterForm = ({ isExpanded }) => {
     <Motion style={{ height: spring(isExpanded ? 300 : 0) }}>
       {({ height }) =>
         <Section id="filter-settings" style={{ height }}>
-          <form className="pure-form pure-form-aligned">
+          <form className="pure-form pure-form-aligned" onSubmit={handleSubmit}>
             <fieldset>
               <div className="pure-control-group">
                 <label htmlFor="query">Query</label>
@@ -44,7 +47,7 @@ let FilterForm = ({ isExpanded }) => {
               </div>
 
               <div className="pure-controls">
-                <button type="submit" className="pure-button pure-button-primary">Submit</button>
+                <button type="submit" className="pure-button pure-button-primary" disabled={submitting}>Submit</button>
               </div>
             </fieldset>
           </form>
@@ -60,10 +63,19 @@ FilterForm = reduxForm({
   enableReinitialize: true
 })(FilterForm);
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   return { initialValues: state.filters[state.ui.currentFilter] };
-}
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSubmit: (data) => {
+      console.log('onSubmit: ', data);
+      // dispatch(actions.changeCurrentFilter(id));
+    }
+  };
+};
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(FilterForm);
