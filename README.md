@@ -1,4 +1,11 @@
-# react-redux-boilerplate
-Basic boilerplate to get started with react / redux projects
+# stashflow
 
-Inspired by: https://github.com/DimitriMikadze/express-react-redux-starter/
+Simple personal finance app for viewing, filtering, and visualizing transactions.
+
+Built with react and redux using localStorage for now. Plan to convert to electron app at some point.
+
+Run locally with:
+```
+npm install
+npm run dev
+```
