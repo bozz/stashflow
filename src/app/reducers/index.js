@@ -9,6 +9,10 @@ const categories = (state = {}, action) => {
   return state;
 };
 
+const dataViews = (state = {}, action) => {
+  return state;
+};
+
 const filters = (state = {}, action) => {
   return state;
 };
@@ -49,6 +53,7 @@ const ui = (state = {}, action) => {
 export default combineReducers({
   accounts,
   categories,
+  dataViews,
   filters,
   form: formReducer,
   transactions,

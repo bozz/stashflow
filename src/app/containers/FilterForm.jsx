@@ -12,15 +12,19 @@ let FilterForm = (props) => {
 
   const accountOptions = [{ value: 'all', label: '[all]' }].concat(
     Object.keys(props.accounts).map(key => {
-      return { value: key, label: props.accounts[key].name };
+      return { value: props.accounts[key].id, label: props.accounts[key].name };
     })
   );
 
   const categoryOptions = [{ value: 'all', label: '[all]' }].concat(
     Object.keys(props.categories).map(key => {
-      return { value: key, label: props.categories[key].name };
+      return { value: props.categories[key].id, label: props.categories[key].name };
     })
   );
+
+  const viewOptions = Object.keys(props.dataViews).map(key => {
+    return { value: props.dataViews[key].id, label: props.dataViews[key].name };
+  });
 
   return (
     <Motion style={{ height: spring(isExpanded ? 300 : 0) }}>
@@ -50,6 +54,11 @@ let FilterForm = (props) => {
                 <Field name="dateTo" component="input" type="date" />
               </div>
 
+              <div className="pure-control-group">
+                <label htmlFor="view">View</label>
+                <Field name="view" component={SelectionComponent} options={viewOptions} />
+              </div>
+
               <div className="pure-controls">
                 <button type="submit" className="pure-button pure-button-primary" disabled={submitting}>Submit</button>
               </div>
@@ -71,6 +80,7 @@ const mapStateToProps = (state) => {
   return {
     accounts: state.accounts,
     categories: state.categories,
+    dataViews: state.dataViews,
     initialValues: state.filters[state.ui.currentFilter]
   };
 };

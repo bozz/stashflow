@@ -9,6 +9,7 @@ export default (props) => {
       onBlur={() => { props.input.onBlur(props.input.value); }}
       onChange={(e) => { props.input.onChange(e ? e.value : ''); }}
       options={props.options}
+      clearable={false}
     />
   );
 };
