@@ -10,13 +10,17 @@ import SelectionComponent from '../components/SelectionComponent';
 let FilterForm = (props) => {
   const { isExpanded, handleSubmit, pristine, submitting } = props;
 
-  const accountOptions = [
-    { value: 'all', label: 'all' }
-  ];
-  const categoryOptions = [
-    { value: 'all', label: 'all' },
-    { value: 'household', label: 'Household expenses' }
-  ];
+  const accountOptions = [{ value: 'all', label: '[all]' }].concat(
+    Object.keys(props.accounts).map(key => {
+      return { value: key, label: props.accounts[key].name };
+    })
+  );
+
+  const categoryOptions = [{ value: 'all', label: '[all]' }].concat(
+    Object.keys(props.categories).map(key => {
+      return { value: key, label: props.categories[key].name };
+    })
+  );
 
   return (
     <Motion style={{ height: spring(isExpanded ? 300 : 0) }}>
@@ -64,7 +68,11 @@ FilterForm = reduxForm({
 })(FilterForm);
 
 const mapStateToProps = (state) => {
-  return { initialValues: state.filters[state.ui.currentFilter] };
+  return {
+    accounts: state.accounts,
+    categories: state.categories,
+    initialValues: state.filters[state.ui.currentFilter]
+  };
 };
 const mapDispatchToProps = (dispatch) => {
   return {

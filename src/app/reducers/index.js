@@ -1,6 +1,18 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
+const accounts = (state = {}, action) => {
+  return state;
+};
+
+const categories = (state = {}, action) => {
+  return state;
+};
+
+const filters = (state = {}, action) => {
+  return state;
+};
+
 const transactions = (state = [], action) => {
   switch (action.type) {
     case 'DELETE_ALL_DATA':
@@ -15,10 +27,6 @@ const transactions = (state = [], action) => {
     default:
       return state;
   }
-};
-
-const filters = (state = {}, action) => {
-  return state;
 };
 
 const ui = (state = {}, action) => {
@@ -39,8 +47,10 @@ const ui = (state = {}, action) => {
 };
 
 export default combineReducers({
-  transactions,
+  accounts,
+  categories,
   filters,
-  ui,
-  form: formReducer
+  form: formReducer,
+  transactions,
+  ui
 });

@@ -13,14 +13,14 @@ import * as actions from '../actions';
 //   - category (id)
 //   - tags (array of ids)
 
-const nameSamples = [
-  'Appartment Rent',
-  'Car Gasoline',
-  'Mobile Invoice',
-  'Supermarket',
-  'Dinner',
-  'Traveling',
-  'Insurance Invoice'
+const sampleData = [
+  ['Appartment Rent', 1],
+  ['Car Gasoline', 4],
+  ['Mobile Invoice', 5],
+  ['Supermarket', 6],
+  ['Dinner', 7],
+  ['Traveling', 8],
+  ['Insurance Invoice', 3]
 ];
 
 const randomDate = (start, end) => {
@@ -35,15 +35,18 @@ const randomDate = (start, end) => {
 
 export const generateData = (dispatch) => {
   let i;
+  let sampleIndex;
   for (i = 0; i < 10; i++) {
+    sampleIndex = Math.floor(Math.random() * sampleData.length);
     dispatch(actions.addTransaction({
-      name: nameSamples[Math.floor(Math.random() * nameSamples.length)],
+      name: sampleData[sampleIndex][0],
       type: 'Money Transfer',
       description: 'lorem ipsum',
       date: randomDate('2016-01-01'),
       amount: Math.floor(Math.random() * 150),
       currency: 'EUR',
-      category: 'Test'
+      account: 'PrimoBank',
+      category: sampleData[sampleIndex][1]
     }));
   }
 };
