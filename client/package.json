@@ -1,0 +1,68 @@
+{
+  "name": "stashflow",
+  "author": "Boris Searles",
+  "license": "MIT",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "dev": "webpack-dashboard -- webpack-dev-server",
+    "build": "npm run clean && cross-env NODE_ENV=\"production\" webpack",
+    "preview": "npm run clean && cross-env NODE_ENV=\"production\" webpack-dev-server",
+    "clean": "rm -rf ./build",
+    "dev_bak": "webpack-dev-server --config ./config/webpack-dev.config.js --watch --colors",
+    "build_bak": "rm -rf dist && webpack --config ./config/webpack-prod.config.js --colors",
+    "start_bak": "PORT=8080 pm2 start ./server.js",
+    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
+    "test:watch": "npm run test -- --watch",
+    "lint": "eslint src ./*.js -f table --ext .js --ext .jsx"
+  },
+  "keywords": [
+    "ReactJS",
+    "Redux",
+    "React hot loader",
+    "SCSS"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bozz/stashflow"
+  },
+  "dependencies": {
+    "bootstrap": "^4.0.0-beta.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-hot-loader": "^3.1.1",
+    "react-popper": "^0.7.4",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "reactstrap": "^5.0.0-alpha.3",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-react-optimize": "^1.0.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "cross-env": "^5.1.1",
+    "css-loader": "^0.28.7",
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.5",
+    "html-webpack-plugin": "^2.30.1",
+    "node-sass": "^4.6.0",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.19.0",
+    "webpack": "^3.8.1",
+    "webpack-dashboard": "^1.0.0",
+    "webpack-dev-server": "^2.9.4"
+  }
+}

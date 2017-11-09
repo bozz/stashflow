@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
+// import { reducer as formReducer } from 'redux-form';
 
 const accounts = (state = {}, action) => {
   return state;
@@ -55,7 +55,7 @@ export default combineReducers({
   categories,
   dataViews,
   filters,
-  form: formReducer,
+  // form: formReducer,
   transactions,
   ui
 });

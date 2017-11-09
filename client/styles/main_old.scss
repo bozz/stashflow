@@ -1,16 +1,15 @@
-@import './purecss';
 @import 'solarized-palette';
+@import "~bootstrap/scss/bootstrap.scss";
 
-@import url(https://fonts.googleapis.com/css?family=Nunito:400,300);
+// @import url(https://fonts.googleapis.com/css?family=Nunito:400,300);
 
 html {
   overflow: hidden;
 }
 
-html, button, input, select, textarea,
-.pure-g [class *= "pure-u"] {
+html, button, input, select, textarea {
   /* Set your content font stack here: */
-  font-family: 'Nunito', sans-serif;
+  // font-family: 'Nunito', sans-serif;
 }
 
 body {
