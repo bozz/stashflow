@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 // import logger from 'dev/logger';
 
-import rootReducer from '../reducers';
+import transactionsReducer from '../redux/transactions';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -29,7 +29,7 @@ export default () => {
   }
 
   store = createStore(
-    rootReducer,
+    transactionsReducer,
     middleware
   );
 

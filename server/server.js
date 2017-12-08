@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const expressGraphQL = require('express-graphql');
 const graphQLTools = require('graphql-tools');
 const mergeUtils = require('merge-graphql-schemas');
@@ -16,6 +17,8 @@ const schema = graphQLTools.makeExecutableSchema({
 });
 
 const app = express();
+
+app.use(cors());
 
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
