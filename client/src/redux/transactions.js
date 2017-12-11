@@ -68,7 +68,7 @@ export default function reducer(state = initialState, action) {
 // Action Creators:
 
 export function fetchTransactions(params = {}) {
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch({ type: FETCH_TRANSACTIONS });
 
     const query = graph.ql`query {
