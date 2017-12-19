@@ -2,10 +2,24 @@
 
 Simple personal finance app for viewing, filtering, and visualizing transactions.
 
-Built with react and redux using localStorage for now. Plan to convert to electron app at some point.
+The server and client of the application are completely seperated and run on different ports.
 
-Run locally with:
+For the server:
+
 ```
+cd server/
+npm install
+npm run db:init
+npm run db:seed
+npm run dev
+```
+
+For the client:
+
+```
+cd client/
 npm install
 npm run dev
 ```
+
+The client should then be running on localhost:8080
