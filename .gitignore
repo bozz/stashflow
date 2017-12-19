@@ -4,3 +4,4 @@ bundle.js
 npm-debug.log
 _archive
 client/build
+server/data/*.sqlite
