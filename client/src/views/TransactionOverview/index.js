@@ -9,10 +9,6 @@ import {
 
 
 class TransactionOverview extends Component {
-  componentDidMount() {
-    this.props.fetchTransactions();
-  }
-
   getTransactionRows() {
     return this.props.transactions.map((transaction) => {
       return (
@@ -50,10 +46,19 @@ class TransactionOverview extends Component {
         <Row>
           <Col>
             <ReactTable
+              manual
               loading={this.props.isFetching}
               data={this.props.transactions}
+              pages={this.props.pages}
               columns={columns}
-              manual
+              onFetchData={(state, instance) => {
+                this.props.fetchTransactions({
+                  page: state.page,
+                  pageSize: state.pageSize,
+                  sorted: state.sorted,
+                  filtered: state.filtered
+                });
+              }}
             />
           </Col>
         </Row>
@@ -64,10 +69,10 @@ class TransactionOverview extends Component {
 
 
 function mapStateToProps(state) {
-  console.log('STATE:::', state);
   return {
     isFetching: state.isFetching,
-    transactions: state.transactions
+    transactions: state.transactions,
+    pages: state.pages
   };
 }
 

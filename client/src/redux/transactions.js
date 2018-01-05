@@ -9,6 +9,7 @@ const SORT_COLUMN = 'sort_column';
 
 const initialState = {
   transactions: [],
+  pages: -1,
   orderBy: [{
     id: 'date',
     desc: true
@@ -33,6 +34,7 @@ export default function reducer(state = initialState, action) {
         state,
         {
           transactions: action.payload.transactions,
+          pages: action.payload.pages,
           isFetching: false
         }
       );
@@ -58,7 +60,7 @@ export function fetchTransactions(params = {}) {
   return function(dispatch) {
     dispatch({ type: FETCH_TRANSACTIONS });
 
-    axios.get('http://localhost:4000/transactions')
+    axios.get('http://localhost:4000/transactions', { params })
       .then((response) => {
         dispatch({
           type: FETCH_TRANSACTIONS_SUCCESS,
