@@ -40,10 +40,11 @@ const plugins = [
   new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
     filename: 'vendor.js',
-    minChunks(module) {
-      const context = module.context;
-      return context && context.indexOf('node_modules') >= 0;
-    },
+    minChunks: 2
+    // minChunks(module) {
+    //   const context = module.context;
+    //   return context && context.indexOf('node_modules') >= 0;
+    // },
   }),
   new HtmlWebpackPlugin({
     template: path.join(paths.ROOT, 'index.html'),

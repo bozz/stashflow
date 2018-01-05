@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ReactTable from 'react-table';
 import { Container, Row, Col, Jumbotron } from 'reactstrap';
 import {
   fetchTransactions
@@ -25,6 +26,17 @@ class TransactionOverview extends Component {
   }
 
   render() {
+    const columns = [{
+      Header: 'Name',
+      accessor: 'name'
+    }, {
+      Header: 'Date',
+      accessor: 'date',
+    }, {
+      Header: 'Amount',
+      accessor: 'amount'
+    }];
+
     return (
       <Container className="transaction-overview">
         <Row>
@@ -37,18 +49,12 @@ class TransactionOverview extends Component {
         </Row>
         <Row>
           <Col>
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Date</th>
-                  <th>Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                { this.getTransactionRows() }
-              </tbody>
-            </table>
+            <ReactTable
+              loading={this.props.isFetching}
+              data={this.props.transactions}
+              columns={columns}
+              manual
+            />
           </Col>
         </Row>
       </Container>

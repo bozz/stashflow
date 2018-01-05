@@ -3,6 +3,7 @@ import Routes from '../../config/routes';
 
 import Header from './Header';
 
+import 'react-table/react-table.css';
 import '../../../styles/main.scss';
 
 export default class App extends Component {
