@@ -13,8 +13,19 @@ const db = require('../models');
 // return all transactions
 router.get('/', function(req, res, next){
 
-  // TODO: handle filtering, sorting...
+  // TODO: handle filtering...
+
   const limit = req.query.pageSize || 20;
+
+  // handle sort order
+  let order = [];
+  if (req.query.sorted) {
+    const sorted = req.query.sorted || [];
+    order = sorted.map(item => {
+      const sort = JSON.parse(item);
+      return [sort.id, sort.desc ? 'DESC' : 'ASC']
+    });
+  }
 
   db.Transaction.findAndCountAll()
     .then((data) => {
@@ -24,7 +35,8 @@ router.get('/', function(req, res, next){
 
       db.Transaction.findAll({
         limit,
-        offset
+        offset,
+        order
       }).then(transactions => {
         return res.json({
           transactions,
@@ -32,7 +44,10 @@ router.get('/', function(req, res, next){
           pages
         });
       }).catch(next);
-    }).catch(next);
+    }).catch(function(error) {
+      console.log("ERROR: ", error);
+      res.status(500).send('Internal Server Error');
+    });
 });
 
 

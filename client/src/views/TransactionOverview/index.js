@@ -3,12 +3,18 @@ import { connect } from 'react-redux';
 import ReactTable from 'react-table';
 import { Container, Row, Col, Jumbotron } from 'reactstrap';
 import {
-  fetchTransactions
-  // sortColumn
+  fetchTransactions,
+  sortTransactions,
+  gotoPage,
+  changePageSize
 } from '../../redux/transactions';
 
 
 class TransactionOverview extends Component {
+  componentDidMount() {
+    this.props.fetchTransactions();
+  }
+
   getTransactionRows() {
     return this.props.transactions.map((transaction) => {
       return (
@@ -49,15 +55,20 @@ class TransactionOverview extends Component {
               manual
               loading={this.props.isFetching}
               data={this.props.transactions}
+              page={this.props.page}
+              pageSize={this.props.pageSize}
               pages={this.props.pages}
+              sorted={this.props.sorted}
+              filtered={this.props.filtered}
               columns={columns}
-              onFetchData={(state, instance) => {
-                this.props.fetchTransactions({
-                  page: state.page,
-                  pageSize: state.pageSize,
-                  sorted: state.sorted,
-                  filtered: state.filtered
-                });
+              onSortedChange={(newSorted, column, shiftKey) => {
+                this.props.sortTransactions(newSorted);
+              }}
+              onPageChange={page => {
+                this.props.gotoPage(page);
+              }}
+              onPageSizeChange={(pageSize, page) => {
+                this.props.changePageSize(pageSize);
               }}
             />
           </Col>
@@ -72,14 +83,20 @@ function mapStateToProps(state) {
   return {
     isFetching: state.isFetching,
     transactions: state.transactions,
-    pages: state.pages
+    page: state.page,
+    pageSize: state.pageSize,
+    pages: state.pages,
+    sorted: state.sorted,
+    filtered: state.filtered
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchTransactions: params => dispatch(fetchTransactions(params))
-    // sortColumn: (columnKey, dir) => dispatch(sortColumn(columnKey, dir))
+    fetchTransactions: params => dispatch(fetchTransactions(params)),
+    sortTransactions: sorted => dispatch(sortTransactions(sorted)),
+    gotoPage: page => dispatch(gotoPage(page)),
+    changePageSize: pageSize => dispatch(changePageSize(pageSize)),
   };
 }
 

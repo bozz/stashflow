@@ -4,13 +4,17 @@ const FETCH_TRANSACTIONS = 'fetch_transactions';
 const FETCH_TRANSACTIONS_SUCCESS = 'fetch_transactions_success';
 const FETCH_TRANSACTIONS_ERROR = 'fetch_transactions_error';
 const SORT_COLUMN = 'sort_column';
+const GOTO_PAGE = 'goto_page';
+const CHANGE_PAGESIZE = 'change_pagesize';
 
 // Reducer:
 
 const initialState = {
   transactions: [],
+  page: 0,
+  pageSize: 20,
   pages: -1,
-  orderBy: [{
+  sorted: [{
     id: 'date',
     desc: true
   }],
@@ -43,10 +47,24 @@ export default function reducer(state = initialState, action) {
         {},
         state,
         {
-          orderBy: [{
-            id: action.payload.columnKey,
-            desc: action.payload.dir === 'desc'
-          }]
+          page: 0, // always goto first page on sort
+          sorted: action.payload.sorted
+        }
+      );
+    case GOTO_PAGE:
+      return Object.assign(
+        {},
+        state,
+        {
+          page: action.payload.page
+        }
+      );
+    case CHANGE_PAGESIZE:
+      return Object.assign(
+        {},
+        state,
+        {
+          pageSize: action.payload.pageSize
         }
       );
     default:
@@ -56,9 +74,17 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators:
 
-export function fetchTransactions(params = {}) {
-  return function(dispatch) {
+export function fetchTransactions() {
+  return function(dispatch, getState) {
     dispatch({ type: FETCH_TRANSACTIONS });
+
+    const state = getState();
+    const params = {
+      page: state.page,
+      pageSize: state.pageSize,
+      sorted: state.sorted,
+      filtered: state.filtered
+    };
 
     axios.get('http://localhost:4000/transactions', { params })
       .then((response) => {
@@ -70,10 +96,35 @@ export function fetchTransactions(params = {}) {
   };
 }
 
-export function sortColumn(columnKey, dir) {
-  return {
-    type: SORT_COLUMN,
-    payload: { columnKey, dir }
+export function sortTransactions(sorted) {
+  return function(dispatch) {
+    dispatch({
+      type: SORT_COLUMN,
+      payload: { sorted }
+    });
+
+    dispatch(fetchTransactions());
   };
 }
 
+export function gotoPage(page) {
+  return function(dispatch) {
+    dispatch({
+      type: GOTO_PAGE,
+      payload: { page }
+    });
+
+    dispatch(fetchTransactions());
+  };
+}
+
+export function changePageSize(pageSize) {
+  return function(dispatch) {
+    dispatch({
+      type: CHANGE_PAGESIZE,
+      payload: { pageSize }
+    });
+
+    dispatch(fetchTransactions());
+  };
+}
