@@ -15,6 +15,8 @@ router.get('/', function(req, res, next){
 
   // TODO: handle filtering...
 
+  // TODO: fix sorting by category and account (causes crash...)
+
   const limit = req.query.pageSize || 20;
 
   // handle sort order
@@ -34,6 +36,10 @@ router.get('/', function(req, res, next){
       const offset = limit * page;
 
       db.Transaction.findAll({
+        include: [
+          { model: db.Account, as: 'account', required: true, attributes: ['name'] },
+          { model: db.Category, as: 'category', attributes: ['name'] }
+        ],
         limit,
         offset,
         order

@@ -27,6 +27,7 @@ module.exports = function(sequelize, DataTypes) {
       onDelete: 'CASCADE'
     });
     Transaction.belongsTo(models.Category, {
+      as: 'category',
       foreignKey: 'categoryId',
       onDelete: 'SET NULL'
     });

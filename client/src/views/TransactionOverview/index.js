@@ -29,14 +29,28 @@ class TransactionOverview extends Component {
 
   render() {
     const columns = [{
-      Header: 'Name',
-      accessor: 'name'
-    }, {
       Header: 'Date',
       accessor: 'date',
     }, {
+      Header: 'Account',
+      accessor: 'account.name'
+    }, {
+      Header: 'Description',
+      accessor: 'name'
+    }, {
+      Header: 'Category',
+      accessor: 'category.name'
+    }, {
       Header: 'Amount',
       accessor: 'amount'
+    }, {
+      Header: 'Currency',
+      accessor: 'currency'
+    }, {
+      Header: 'Actions',
+      Cell: row => (
+        <a href="#">edit</a>
+      )
     }];
 
     return (
