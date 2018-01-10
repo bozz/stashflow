@@ -5,3 +5,15 @@ body {
   padding-top: 4.5rem;
 }
 
+
+.row-actions {
+  button {
+    line-height: 1em;
+    padding: 0 4px 2px;
+    margin-right: 5px;
+  }
+  button:last-child {
+    margin-right: 0;
+  }
+}
+

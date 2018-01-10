@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactTable from 'react-table';
-import { Container, Row, Col, Jumbotron } from 'reactstrap';
+import { UncontrolledAlert, Container, Row, Col, Jumbotron, Button } from 'reactstrap';
+import IconDelete from 'react-icons/lib/fa/close';
+import IconEdit from 'react-icons/lib/fa/cog';
 import {
   fetchTransactions,
+  deleteTransaction,
   sortTransactions,
   gotoPage,
   changePageSize
@@ -15,30 +18,43 @@ class TransactionOverview extends Component {
     this.props.fetchTransactions();
   }
 
-  getTransactionRows() {
-    return this.props.transactions.map((transaction) => {
+  checkAndDisplayErrors() {
+    if (this.props.error) {
       return (
-        <tr key={transaction.id}>
-          <td>{transaction.name}</td>
-          <td>{transaction.date}</td>
-          <td>{transaction.amount}</td>
-        </tr>
-      );
-    });
+        <UncontrolledAlert color="danger">{this.props.error}</UncontrolledAlert>
+      )
+    }
+  }
+
+  onClickEdit(row) {
+    console.log("Edit row: ", row.id);
+  }
+
+  onClickDelete(row) {
+    var result = confirm("Are you sure to delete transaction?");
+    if (result) {
+      this.props.deleteTransaction(row.id);
+    }
   }
 
   render() {
     const columns = [{
+      Header: 'ID',
+      accessor: 'id',
+      show: false
+    }, {
       Header: 'Date',
       accessor: 'date',
     }, {
       Header: 'Account',
+      sortable: false,
       accessor: 'account.name'
     }, {
       Header: 'Description',
       accessor: 'name'
     }, {
       Header: 'Category',
+      sortable: false,
       accessor: 'category.name'
     }, {
       Header: 'Amount',
@@ -48,9 +64,15 @@ class TransactionOverview extends Component {
       accessor: 'currency'
     }, {
       Header: 'Actions',
-      Cell: row => (
-        <a href="#">edit</a>
-      )
+      sortable: false,
+      Cell: rowData => {
+        return (
+          <span className="row-actions">
+            <Button className="edit" color="secondary" size="sm" onClick={() => this.onClickEdit(rowData.row)}><IconEdit /></Button>
+            <Button className="delete" color="danger" size="sm" onClick={() => this.onClickDelete(rowData.row)}><IconDelete /></Button>
+          </span>
+        );
+      }
     }];
 
     return (
@@ -65,6 +87,7 @@ class TransactionOverview extends Component {
         </Row>
         <Row>
           <Col>
+            {this.checkAndDisplayErrors()}
             <ReactTable
               manual
               loading={this.props.isFetching}
@@ -101,13 +124,15 @@ function mapStateToProps(state) {
     pageSize: state.pageSize,
     pages: state.pages,
     sorted: state.sorted,
-    filtered: state.filtered
+    filtered: state.filtered,
+    error: state.error
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     fetchTransactions: params => dispatch(fetchTransactions(params)),
+    deleteTransaction: id => dispatch(deleteTransaction(id)),
     sortTransactions: sorted => dispatch(sortTransactions(sorted)),
     gotoPage: page => dispatch(gotoPage(page)),
     changePageSize: pageSize => dispatch(changePageSize(pageSize)),

@@ -69,5 +69,22 @@ router.get('/:id', function(req, res, next){
   }).catch(next);
 });
 
+
+// delete specific transaction
+router.delete('/:id', function(req, res, next){
+  db.Transaction.findOne({ where: { id: req.params.id } })
+    .then(transaction => {
+      if (!transaction) {
+        return res.status(404).json({
+          error: "Transaction not found"
+        });
+      }
+      return transaction.destroy();
+    })
+    .then(() => {
+      return res.json({ success: true });
+    }).catch(next);
+});
+
 module.exports = router;
 

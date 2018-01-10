@@ -3,6 +3,8 @@ import axios from 'axios';
 const FETCH_TRANSACTIONS = 'fetch_transactions';
 const FETCH_TRANSACTIONS_SUCCESS = 'fetch_transactions_success';
 const FETCH_TRANSACTIONS_ERROR = 'fetch_transactions_error';
+const DELETE_TRANSACTION = 'delete_transaction';
+const DELETE_TRANSACTION_ERROR = 'delete_transaction_error';
 const SORT_COLUMN = 'sort_column';
 const GOTO_PAGE = 'goto_page';
 const CHANGE_PAGESIZE = 'change_pagesize';
@@ -19,12 +21,14 @@ const initialState = {
     desc: true
   }],
   filter: [],
-  isFetching: false
+  isFetching: false,
+  error: null
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_TRANSACTIONS:
+    case DELETE_TRANSACTION:
       return Object.assign(
         {},
         state,
@@ -39,7 +43,18 @@ export default function reducer(state = initialState, action) {
         {
           transactions: action.payload.transactions,
           pages: action.payload.pages,
-          isFetching: false
+          isFetching: false,
+          error: null
+        }
+      );
+    case FETCH_TRANSACTIONS_ERROR:
+    case DELETE_TRANSACTION_ERROR:
+      return Object.assign(
+        {},
+        state,
+        {
+          isFetching: false,
+          error: action.payload
         }
       );
     case SORT_COLUMN:
@@ -91,6 +106,29 @@ export function fetchTransactions() {
         dispatch({
           type: FETCH_TRANSACTIONS_SUCCESS,
           payload: response.data
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: DELETE_TRANSACTION_ERROR,
+          payload: error.response
+        });
+      });
+  };
+}
+
+export function deleteTransaction(id) {
+  return function(dispatch) {
+    dispatch({ type: DELETE_TRANSACTION });
+
+    axios.delete('http://localhost:4000/transactions/' + id)
+      .then((response) => {
+        dispatch(fetchTransactions());
+      })
+      .catch((error) => {
+        dispatch({
+          type: DELETE_TRANSACTION_ERROR,
+          payload: "Error deleting transaction: " + (error.response ? error.response.data.error : error.message)
         });
       });
   };
