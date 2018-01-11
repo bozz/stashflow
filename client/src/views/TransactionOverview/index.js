@@ -6,11 +6,16 @@ import IconDelete from 'react-icons/lib/fa/close';
 import IconEdit from 'react-icons/lib/fa/cog';
 import {
   fetchTransactions,
+  showTransaction,
+  closeTransaction,
   deleteTransaction,
   sortTransactions,
   gotoPage,
   changePageSize
 } from '../../redux/transactions';
+
+import Modal from '../../components/modal';
+import TransactionView from '../Transaction';
 
 
 class TransactionOverview extends Component {
@@ -26,8 +31,27 @@ class TransactionOverview extends Component {
     }
   }
 
+  checkAndDisplayTransaction() {
+    if (this.props.shownTransaction) {
+      const transactionData = this.props.transactions.find(item => {
+        return item.id === this.props.shownTransaction;
+      });
+      return (
+        <Modal
+          className="transaction-modal"
+          title="Edit Transaction"
+          isOpen={true}
+          backdrop="static"
+          toggle={this.props.closeTransaction}
+        >
+          <TransactionView data={transactionData} />
+        </Modal>
+      )
+    }
+  }
+
   onClickEdit(row) {
-    console.log("Edit row: ", row.id);
+    this.props.showTransaction(row.id);
   }
 
   onClickDelete(row) {
@@ -110,6 +134,7 @@ class TransactionOverview extends Component {
             />
           </Col>
         </Row>
+        {this.checkAndDisplayTransaction()}
       </Container>
     );
   }
@@ -120,6 +145,7 @@ function mapStateToProps(state) {
   return {
     isFetching: state.isFetching,
     transactions: state.transactions,
+    shownTransaction: state.shownTransaction,
     page: state.page,
     pageSize: state.pageSize,
     pages: state.pages,
@@ -132,6 +158,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchTransactions: params => dispatch(fetchTransactions(params)),
+    showTransaction: id => dispatch(showTransaction(id)),
+    closeTransaction: () => dispatch(closeTransaction()),
     deleteTransaction: id => dispatch(deleteTransaction(id)),
     sortTransactions: sorted => dispatch(sortTransactions(sorted)),
     gotoPage: page => dispatch(gotoPage(page)),

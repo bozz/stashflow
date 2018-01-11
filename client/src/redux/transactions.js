@@ -3,6 +3,8 @@ import axios from 'axios';
 const FETCH_TRANSACTIONS = 'fetch_transactions';
 const FETCH_TRANSACTIONS_SUCCESS = 'fetch_transactions_success';
 const FETCH_TRANSACTIONS_ERROR = 'fetch_transactions_error';
+const SHOW_TRANSACTION = 'show_transaction';
+const CLOSE_TRANSACTION = 'close_transaction';
 const DELETE_TRANSACTION = 'delete_transaction';
 const DELETE_TRANSACTION_ERROR = 'delete_transaction_error';
 const SORT_COLUMN = 'sort_column';
@@ -13,6 +15,7 @@ const CHANGE_PAGESIZE = 'change_pagesize';
 
 const initialState = {
   transactions: [],
+  shownTransaction: null,
   page: 0,
   pageSize: 20,
   pages: -1,
@@ -55,6 +58,22 @@ export default function reducer(state = initialState, action) {
         {
           isFetching: false,
           error: action.payload
+        }
+      );
+    case SHOW_TRANSACTION:
+      return Object.assign(
+        {},
+        state,
+        {
+          shownTransaction: action.payload,
+        }
+      );
+    case CLOSE_TRANSACTION:
+      return Object.assign(
+        {},
+        state,
+        {
+          shownTransaction: null
         }
       );
     case SORT_COLUMN:
@@ -114,6 +133,23 @@ export function fetchTransactions() {
           payload: error.response
         });
       });
+  };
+}
+
+export function showTransaction(id) {
+  return function(dispatch) {
+    dispatch({
+      type: SHOW_TRANSACTION,
+      payload: id
+    });
+  };
+}
+
+export function closeTransaction() {
+  return function(dispatch) {
+    dispatch({
+      type: CLOSE_TRANSACTION
+    });
   };
 }
 
