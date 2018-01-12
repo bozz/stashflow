@@ -8,6 +8,7 @@ import {
   fetchTransactions,
   showTransaction,
   closeTransaction,
+  updateTransaction,
   deleteTransaction,
   sortTransactions,
   gotoPage,
@@ -36,6 +37,7 @@ class TransactionOverview extends Component {
       const transactionData = this.props.transactions.find(item => {
         return item.id === this.props.shownTransaction;
       });
+
       return (
         <Modal
           className="transaction-modal"
@@ -44,7 +46,7 @@ class TransactionOverview extends Component {
           backdrop="static"
           toggle={this.props.closeTransaction}
         >
-          <TransactionView data={transactionData} />
+          <TransactionView initialValues={transactionData} saveTransaction={this.props.updateTransaction} />
         </Modal>
       )
     }
@@ -140,35 +142,17 @@ class TransactionOverview extends Component {
   }
 }
 
-
-function mapStateToProps(state) {
-  return {
-    isFetching: state.isFetching,
-    transactions: state.transactions,
-    shownTransaction: state.shownTransaction,
-    page: state.page,
-    pageSize: state.pageSize,
-    pages: state.pages,
-    sorted: state.sorted,
-    filtered: state.filtered,
-    error: state.error
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    fetchTransactions: params => dispatch(fetchTransactions(params)),
-    showTransaction: id => dispatch(showTransaction(id)),
-    closeTransaction: () => dispatch(closeTransaction()),
-    deleteTransaction: id => dispatch(deleteTransaction(id)),
-    sortTransactions: sorted => dispatch(sortTransactions(sorted)),
-    gotoPage: page => dispatch(gotoPage(page)),
-    changePageSize: pageSize => dispatch(changePageSize(pageSize)),
-  };
-}
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  (state) => state.transactions,
+  {
+    fetchTransactions,
+    showTransaction,
+    closeTransaction,
+    updateTransaction,
+    deleteTransaction,
+    sortTransactions,
+    gotoPage,
+    changePageSize
+  }
 )(TransactionOverview);
 

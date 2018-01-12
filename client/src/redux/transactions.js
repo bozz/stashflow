@@ -5,6 +5,9 @@ const FETCH_TRANSACTIONS_SUCCESS = 'fetch_transactions_success';
 const FETCH_TRANSACTIONS_ERROR = 'fetch_transactions_error';
 const SHOW_TRANSACTION = 'show_transaction';
 const CLOSE_TRANSACTION = 'close_transaction';
+const UPDATE_TRANSACTION = 'update_transaction';
+const UPDATE_TRANSACTION_SUCCESS = 'update_transaction_success';
+const UPDATE_TRANSACTION_ERROR = 'update_transaction_error';
 const DELETE_TRANSACTION = 'delete_transaction';
 const DELETE_TRANSACTION_ERROR = 'delete_transaction_error';
 const SORT_COLUMN = 'sort_column';
@@ -25,6 +28,7 @@ const initialState = {
   }],
   filter: [],
   isFetching: false,
+  isSaving: false,
   error: null
 };
 
@@ -51,12 +55,14 @@ export default function reducer(state = initialState, action) {
         }
       );
     case FETCH_TRANSACTIONS_ERROR:
+    case UPDATE_TRANSACTION_ERROR:
     case DELETE_TRANSACTION_ERROR:
       return Object.assign(
         {},
         state,
         {
           isFetching: false,
+          isSaving: false,
           error: action.payload
         }
       );
@@ -73,6 +79,23 @@ export default function reducer(state = initialState, action) {
         {},
         state,
         {
+          shownTransaction: null
+        }
+      );
+    case UPDATE_TRANSACTION:
+      return Object.assign(
+        {},
+        state,
+        {
+          isSaving: true
+        }
+      );
+    case UPDATE_TRANSACTION_SUCCESS:
+      return Object.assign(
+        {},
+        state,
+        {
+          isSaving: false,
           shownTransaction: null
         }
       );
@@ -150,6 +173,24 @@ export function closeTransaction() {
     dispatch({
       type: CLOSE_TRANSACTION
     });
+  };
+}
+
+export function updateTransaction(params) {
+  return function(dispatch) {
+    dispatch({ type: UPDATE_TRANSACTION });
+
+    axios.post('http://localhost:4000/transactions/' + params.id, params)
+      .then((response) => {
+        dispatch({ type: UPDATE_TRANSACTION_SUCCESS });
+        dispatch(fetchTransactions());
+      })
+      .catch((error) => {
+        dispatch({
+          type: UPDATE_TRANSACTION_ERROR,
+          payload: "Error updating transaction: " + (error.response ? error.response.data.error : error.message)
+        });
+      });
   };
 }
 

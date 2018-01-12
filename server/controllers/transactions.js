@@ -69,6 +69,30 @@ router.get('/:id', function(req, res, next){
   }).catch(next);
 });
 
+// create new transaction
+router.post('/', function(req, res, next){
+  db.Transaction.create(req.body, {
+    fields: ['accountId', 'type', 'categoryId', 'date', 'amount', 'name', 'description']
+  }).then((transaction) => {
+    return res.json(transaction);
+  }).catch(next);
+});
+
+// update specific transaction
+router.post('/:id', function(req, res, next){
+  db.Transaction.findOne({ where: { id: req.params.id } }).then(transaction => {
+    if (!transaction) {
+      return res.status(404).json({
+        error: "Transaction not found"
+      });
+    }
+    transaction.update(req.body, {
+      fields: ['accountId', 'type', 'categoryId', 'date', 'amount', 'name', 'description']
+    }).then(() => {
+      return res.json(req.body);
+    });
+  }).catch(next);
+});
 
 // delete specific transaction
 router.delete('/:id', function(req, res, next){
