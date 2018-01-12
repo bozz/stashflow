@@ -35,7 +35,7 @@ export default () => {
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
-    module.hot.accept('../reducers', () => {
+    module.hot.accept('../redux/reducers', () => {
       const nextRootReducer = require('../redux/reducers').default; // eslint-disable-line global-require
       store.replaceReducer(nextRootReducer);
     });
