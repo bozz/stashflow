@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 // import logger from 'dev/logger';
 
-import transactionsReducer from '../redux/transactions';
+import reducers from '../redux/reducers';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -29,14 +29,14 @@ export default () => {
   }
 
   store = createStore(
-    transactionsReducer,
+    reducers,
     middleware
   );
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
-      const nextRootReducer = require('../reducers/index').default; // eslint-disable-line global-require
+      const nextRootReducer = require('../redux/reducers').default; // eslint-disable-line global-require
       store.replaceReducer(nextRootReducer);
     });
   }
