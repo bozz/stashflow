@@ -26,7 +26,7 @@ const IS_PRODUCTION = NODE_ENV === 'production';
 /** ENTRY **************************************************/
 
 const entry = [
-  path.join(paths.JS, 'main.js'),
+  path.join(paths.JS, 'app.js'),
 ];
 
 if (IS_DEVELOPMENT) {

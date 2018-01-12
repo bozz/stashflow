@@ -14,8 +14,8 @@ import {
   changePageSize
 } from '../../redux/transactions';
 
-import Modal from '../../components/modal';
-import TransactionView from '../Transaction';
+import Modal from '../components/Modal';
+import TransactionView from '../components/Transaction';
 
 
 class TransactionOverview extends Component {

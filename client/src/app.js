@@ -8,7 +8,7 @@ import { AppContainer } from 'react-hot-loader';
 
 import configureStore from './config/store';
 
-import App from './views/App';
+import MainLayout from './views/layout/Main';
 
 const store = configureStore();
 
@@ -25,11 +25,11 @@ const render = (Component) => {
   );
 };
 
-render(App);
+render(MainLayout);
 
 if (module.hot) {
-  module.hot.accept('./views/App/', () => {
-    const NewClient = require('./views/App/index').default; // eslint-disable-line global-require
+  module.hot.accept('./views/layout/Main', () => {
+    const NewClient = require('./views/layout/Main').default; // eslint-disable-line global-require
     render(NewClient);
   });
 }
