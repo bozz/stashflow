@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Collapse,
   Navbar,
@@ -44,7 +45,7 @@ class Header extends React.Component {
   render() {
     return (
       <Navbar fixed="top" color="primary" expand="md">
-        <NavbarBrand href="/">stashflow</NavbarBrand>
+        <Link to="/" className="navbar-brand">stashflow</Link>
         <NavbarToggler onClick={this.toggleCollapse} />
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>

@@ -41,7 +41,7 @@ button.close:hover {
   li a:hover {
     background: $gray-800;
   }
-  li.active > a {
+  li a.active {
     background: $gray-800;
     color: $gray-400;
   }

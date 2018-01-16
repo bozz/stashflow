@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import ReactTable from 'react-table';
 import { UncontrolledAlert, Container, Row, Col, Breadcrumb, BreadcrumbItem, Card, CardBody, CardTitle, Button } from 'reactstrap';
 import IconDelete from 'react-icons/lib/fa/close';
@@ -106,7 +107,7 @@ class TransactionOverview extends Component {
         <Row>
           <Col>
             <Breadcrumb tag="nav">
-              <BreadcrumbItem tag="a" href="/accounts">Accounts</BreadcrumbItem>
+              <Link className="breadcrumb-item" to="/accounts">Accounts</Link>
               <BreadcrumbItem active tag="span">Bank A</BreadcrumbItem>
             </Breadcrumb>
 

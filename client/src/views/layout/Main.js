@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import Routes from '../../config/routes';
 
 import Header from '../components/Header';
@@ -15,10 +16,10 @@ export default class MainLayout extends Component {
         <div className="wrapper">
           <nav id="sidebar">
             <ul className="list-unstyled">
-              <li><a href="/dashboard">Dashboard</a></li>
-              <li className="active"><a href="/accounts">Accounts</a></li>
-              <li><a href="/reports">Reports</a></li>
-              <li><a href="/settings">Settings</a></li>
+              <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+              <li><NavLink to="/accounts">Accounts</NavLink></li>
+              <li><NavLink to="/reports">Reports</NavLink></li>
+              <li><NavLink to="/settings">Settings</NavLink></li>
             </ul>
           </nav>
 
