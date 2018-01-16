@@ -8,27 +8,39 @@ class Transaction extends React.Component {
     return (
       <form onSubmit={handleSubmit(saveTransaction)}>
         <Field name="id" component="input" type="hidden" />
-        <fieldset className="form-group">
-          <label>Account:</label>
-          <Field className="form-control" name="accountId" component="input" type="text" />
+        <fieldset className="form-group row">
+          <label className="col-sm-2 col-form-label col-form-label-sm">Account:</label>
+          <div className="col-sm-10">
+            <Field className="form-control form-control-sm" name="accountId" component="input" type="text" />
+          </div>
+        </fieldset>
+        <fieldset className="form-group row">
+          <label className="col-sm-2 col-form-label col-form-label-sm">Category:</label>
+          <div className="col-sm-10">
+            <Field className="form-control form-control-sm" name="categoryId" component="input" type="text" />
+          </div>
+        </fieldset>
+        <fieldset className="form-group row">
+          <label className="col-sm-2 col-form-label col-form-label-sm">Date:</label>
+          <div className="col-sm-10">
+            <Field className="form-control form-control-sm" name="date" component="input" type="date" />
+          </div>
+        </fieldset>
+        <fieldset className="form-group row">
+          <label className="col-sm-2 col-form-label col-form-label-sm">Amount:</label>
+          <div className="col-sm-10">
+            <Field className="form-control form-control-sm" name="amount" component="input" type="text" />
+          </div>
+        </fieldset>
+        <fieldset className="form-group row">
+          <label className="col-sm-2 col-form-label col-form-label-sm">Description:</label>
+          <div className="col-sm-10">
+            <Field className="form-control form-control-sm" name="name" component="input" type="textarea" />
+          </div>
         </fieldset>
         <fieldset className="form-group">
-          <label>Category:</label>
-          <Field className="form-control" name="categoryId" component="input" type="text" />
+          <button action="submit" className="btn btn-sm btn-success float-right" disabled={pristine || submitting}>Save</button>
         </fieldset>
-        <fieldset className="form-group">
-          <label>Date:</label>
-          <Field className="form-control" name="date" component="input" type="text" />
-        </fieldset>
-        <fieldset className="form-group">
-          <label>Amount:</label>
-          <Field className="form-control" name="amount" component="input" type="text" />
-        </fieldset>
-        <fieldset className="form-group">
-          <label>Description:</label>
-          <Field className="form-control" name="name" component="input" type="textarea" />
-        </fieldset>
-        <button action="submit" className="btn btn-primary" disabled={pristine || submitting}>Save</button>
       </form>
     );
   }

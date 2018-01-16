@@ -1,8 +1,77 @@
-// @import 'solarized-palette';
+@import "~bootswatch/dist/slate/variables";
 @import "~bootstrap/scss/bootstrap.scss";
+@import "~bootswatch/dist/slate/bootswatch";
 
 body {
   padding-top: 4.5rem;
+}
+
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+button.close {
+  color: $gray-400;
+}
+button.close:hover {
+  color: $gray-600;
+}
+
+.wrapper {
+  display: flex;
+  align-items: stretch;
+}
+
+#sidebar {
+  width: 220px;
+  // border-right: 1px solid #34373d;
+
+  li {
+    position: relative;
+  }
+  li a {
+    color: $gray-600;
+    padding: 18px 20px;
+    display: block;
+    font-weight: 400;
+    text-decoration: none;
+    position: relative;
+  }
+  li a:hover {
+    background: $gray-800;
+  }
+  li.active > a {
+    background: $gray-800;
+    color: $gray-400;
+  }
+}
+
+div.page-content {
+  position: relative;
+  min-height: 100vh;
+  width: calc(100% - 220px);
+}
+
+
+// React-Table
+
+.ReactTable {
+  border: none;
+}
+.ReactTable .rt-thead.-header {
+  box-shadow: none;
+}
+.ReactTable .rt-thead.-header,
+.ReactTable .rt-tbody .rt-tr-group {
+  border-bottom: 1px solid $gray-800;
+}
+.ReactTable .rt-thead .rt-th,
+.ReactTable .rt-tbody .rt-td {
+  padding: 10px 5px;
+}
+.ReactTable .rt-thead .rt-th {
+  font-weight: bold;
 }
 
 

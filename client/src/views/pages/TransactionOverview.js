@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactTable from 'react-table';
-import { UncontrolledAlert, Container, Row, Col, Jumbotron, Button } from 'reactstrap';
+import { UncontrolledAlert, Container, Row, Col, Breadcrumb, BreadcrumbItem, Card, CardBody, CardTitle, Button } from 'reactstrap';
 import IconDelete from 'react-icons/lib/fa/close';
 import IconEdit from 'react-icons/lib/fa/cog';
 import {
@@ -102,38 +102,41 @@ class TransactionOverview extends Component {
     }];
 
     return (
-      <Container className="transaction-overview">
+      <Container fluid className="transaction-overview">
         <Row>
           <Col>
-            <Jumbotron>
-              <h1>Transactions</h1>
-              <p>This is where all transactions will be listed...</p>
-            </Jumbotron>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
+            <Breadcrumb tag="nav">
+              <BreadcrumbItem tag="a" href="/accounts">Accounts</BreadcrumbItem>
+              <BreadcrumbItem active tag="span">Bank A</BreadcrumbItem>
+            </Breadcrumb>
+
             {this.checkAndDisplayErrors()}
-            <ReactTable
-              manual
-              loading={this.props.isFetching}
-              data={this.props.transactions}
-              page={this.props.page}
-              pageSize={this.props.pageSize}
-              pages={this.props.pages}
-              sorted={this.props.sorted}
-              filtered={this.props.filtered}
-              columns={columns}
-              onSortedChange={(newSorted, column, shiftKey) => {
-                this.props.sortTransactions(newSorted);
-              }}
-              onPageChange={page => {
-                this.props.gotoPage(page);
-              }}
-              onPageSizeChange={(pageSize, page) => {
-                this.props.changePageSize(pageSize);
-              }}
-            />
+
+            <Card>
+              <CardBody>
+                <CardTitle>Transactions</CardTitle>
+                <ReactTable
+                  manual
+                  loading={this.props.isFetching}
+                  data={this.props.transactions}
+                  page={this.props.page}
+                  pageSize={this.props.pageSize}
+                  pages={this.props.pages}
+                  sorted={this.props.sorted}
+                  filtered={this.props.filtered}
+                  columns={columns}
+                  onSortedChange={(newSorted, column, shiftKey) => {
+                    this.props.sortTransactions(newSorted);
+                  }}
+                  onPageChange={page => {
+                    this.props.gotoPage(page);
+                  }}
+                  onPageSizeChange={(pageSize, page) => {
+                    this.props.changePageSize(pageSize);
+                  }}
+                />
+              </CardBody>
+            </Card>
           </Col>
         </Row>
         {this.checkAndDisplayTransaction()}

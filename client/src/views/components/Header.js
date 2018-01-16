@@ -43,7 +43,7 @@ class Header extends React.Component {
 
   render() {
     return (
-      <Navbar fixed="top" color="light" light expand="md">
+      <Navbar fixed="top" color="primary" expand="md">
         <NavbarBrand href="/">stashflow</NavbarBrand>
         <NavbarToggler onClick={this.toggleCollapse} />
         <Collapse isOpen={this.state.isOpen} navbar>

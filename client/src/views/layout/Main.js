@@ -12,8 +12,19 @@ export default class MainLayout extends Component {
       <div className="app">
         <Header />
 
-        <div className="content">
-          <Routes />
+        <div className="wrapper">
+          <nav id="sidebar">
+            <ul className="list-unstyled">
+              <li><a href="/dashboard">Dashboard</a></li>
+              <li className="active"><a href="/accounts">Accounts</a></li>
+              <li><a href="/reports">Reports</a></li>
+              <li><a href="/settings">Settings</a></li>
+            </ul>
+          </nav>
+
+          <div className="page-content">
+            <Routes />
+          </div>
         </div>
       </div>
     );
