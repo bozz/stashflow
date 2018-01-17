@@ -7,7 +7,7 @@ import reducers from '../redux/reducers';
 const isProduction = process.env.NODE_ENV === 'production';
 
 // Creating store
-export default () => {
+export default (initialState = {}) => {
   let store = null;
   let middleware = null;
 
@@ -30,6 +30,7 @@ export default () => {
 
   store = createStore(
     reducers,
+    initialState,
     middleware
   );
 

@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Card, CardBody, CardTitle } from 'reactstrap';
+import { Container, Row, Col, Breadcrumb, BreadcrumbItem, Card, CardBody, CardTitle } from 'reactstrap';
 
-export default class Accounts extends Component {
+class Accounts extends Component {
+  getAccountComponents() {
+    return this.props.accounts.map((account) => {
+      return <p><Link to="/accounts/transactions">{account.name}</Link></p>
+    });
+  }
+
   render() {
     return (
       <Container fluid className="dashboard">
         <Row>
           <Col>
+            <Breadcrumb tag="nav">
+              <BreadcrumbItem active tag="span">Accounts</BreadcrumbItem>
+            </Breadcrumb>
             <Card>
               <CardBody>
                 <CardTitle>Accounts</CardTitle>
-                <p><Link to="/transactions">Goto Transactions</Link></p>
+                {this.getAccountComponents()}
               </CardBody>
             </Card>
           </Col>
@@ -20,4 +30,6 @@ export default class Accounts extends Component {
     );
   }
 }
+
+export default connect((state) => state.accounts)(Accounts);
 

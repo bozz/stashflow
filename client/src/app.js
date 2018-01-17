@@ -1,5 +1,6 @@
 /* global document */
 
+import axios from 'axios';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -10,16 +11,38 @@ import configureStore from './config/store';
 
 import MainLayout from './views/layout/Main';
 
-const store = configureStore();
+let store = null;
+let isInitialized = false;
+
+axios.all([
+    axios.get('http://localhost:4000/accounts'),
+    axios.get('http://localhost:4000/categories')
+  ])
+  .then(axios.spread((accountsRes, categoriesRes) => {
+    store = configureStore({
+      accounts: accountsRes.data,
+      categories: categoriesRes.data
+    });
+    isInitialized = true;
+    render(MainLayout);
+  }))
+  .catch((error) => {
+    console.log("Error: ", error);
+  });
+
 
 const render = (Component) => {
   ReactDOM.render(
     <AppContainer>
+      {isInitialized ? (
       <Provider store={store}>
         <BrowserRouter>
           <Component />
         </BrowserRouter>
       </Provider>
+      ) : (
+        <h1>Initializing...</h1>
+      )}
     </AppContainer>
     , document.getElementById('root')
   );

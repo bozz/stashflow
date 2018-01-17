@@ -12,8 +12,8 @@ export default () => (
   <Switch>
     <Route exact path="/" component={ Dashboard } />
     <Route path="/dashboard" component={ Dashboard } />
+    <Route path="/accounts/transactions" component={ TransactionOverview } />
     <Route path="/accounts" component={ Accounts } />
-    <Route path="/transactions" component={ TransactionOverview } />
     <Route path="/reports" component={ Reports } />
     <Route path="/settings" component={ Settings } />
     <Route path="*" component={ NotFound } />

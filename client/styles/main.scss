@@ -18,6 +18,10 @@ button.close:hover {
   color: $gray-600;
 }
 
+.card {
+  margin-bottom: 1rem;
+}
+
 .wrapper {
   display: flex;
   align-items: stretch;
@@ -51,6 +55,13 @@ div.page-content {
   position: relative;
   min-height: 100vh;
   width: calc(100% - 220px);
+}
+
+
+// Table filter options
+
+.filter-options {
+  padding-top: 8px;
 }
 
 

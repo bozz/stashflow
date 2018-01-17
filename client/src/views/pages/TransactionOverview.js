@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ReactTable from 'react-table';
-import { UncontrolledAlert, Container, Row, Col, Breadcrumb, BreadcrumbItem, Card, CardBody, CardTitle, Button } from 'reactstrap';
+import { UncontrolledAlert, Container, Row, Col, Breadcrumb, BreadcrumbItem, Card, CardHeader, CardBody, CardTitle, Button } from 'reactstrap';
 import IconDelete from 'react-icons/lib/fa/close';
 import IconEdit from 'react-icons/lib/fa/cog';
 import {
@@ -111,11 +111,20 @@ class TransactionOverview extends Component {
               <BreadcrumbItem active tag="span">Bank A</BreadcrumbItem>
             </Breadcrumb>
 
+            <Card className="filter-options text-white" color="secondary">
+                <form class="form-inline">
+                  <div class="form-group mx-sm-3 mb-2">
+                    <label for="search-query" class="sr-only">Search</label>
+                    <input type="text" class="form-control form-control-sm" id="search-query" placeholder="Search" />
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm mb-2">Submit</button>
+                  </form>
+            </Card>
+
             {this.checkAndDisplayErrors()}
 
             <Card>
               <CardBody>
-                <CardTitle>Transactions</CardTitle>
                 <ReactTable
                   manual
                   loading={this.props.isFetching}
