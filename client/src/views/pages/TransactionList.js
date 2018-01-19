@@ -7,20 +7,25 @@ import IconDelete from 'react-icons/lib/fa/close';
 import IconEdit from 'react-icons/lib/fa/cog';
 import {
   fetchTransactions,
-  showTransaction,
-  closeTransaction,
-  updateTransaction,
   deleteTransaction,
   sortTransactions,
+  setFilter,
   gotoPage,
   changePageSize
-} from '../../redux/transactions';
-
-import Modal from '../components/Modal';
-import TransactionView from '../components/Transaction';
+} from '../../redux/transactionList';
 
 
-class TransactionOverview extends Component {
+class TransactionList extends Component {
+  constructor(props) {
+    super(props);
+
+    const currentAccountId = this.props.match.params.accountId;
+    this.props.setFilter([{ accountId: currentAccountId }]);
+    this._currentAccount = this.props.accounts.find((account) => {
+      return account.id == currentAccountId;
+    });
+  }
+
   componentDidMount() {
     this.props.fetchTransactions();
   }
@@ -33,29 +38,25 @@ class TransactionOverview extends Component {
     }
   }
 
-  checkAndDisplayTransaction() {
-    if (this.props.shownTransaction) {
-      const transactionData = this.props.transactions.find(item => {
-        return item.id === this.props.shownTransaction;
-      });
+  // checkAndDisplayTransaction() {
+  //   if (this.props.shownTransaction) {
+  //     const transactionData = this.props.transactions.find(item => {
+  //       return item.id === this.props.shownTransaction;
+  //     });
 
-      return (
-        <Modal
-          className="transaction-modal"
-          title="Edit Transaction"
-          isOpen={true}
-          backdrop="static"
-          toggle={this.props.closeTransaction}
-        >
-          <TransactionView initialValues={transactionData} saveTransaction={this.props.updateTransaction} />
-        </Modal>
-      )
-    }
-  }
-
-  onClickEdit(row) {
-    this.props.showTransaction(row.id);
-  }
+  //     return (
+  //       <Modal
+  //         className="transaction-modal"
+  //         title="Edit Transaction"
+  //         isOpen={true}
+  //         backdrop="static"
+  //         toggle={this.props.closeTransaction}
+  //       >
+  //         <TransactionView initialValues={transactionData} saveTransaction={this.props.updateTransaction} />
+  //       </Modal>
+  //     )
+  //   }
+  // }
 
   onClickDelete(row) {
     var result = confirm("Are you sure to delete transaction?");
@@ -72,10 +73,11 @@ class TransactionOverview extends Component {
     }, {
       Header: 'Date',
       accessor: 'date',
+      width: 120,
     }, {
-      Header: 'Account',
-      sortable: false,
-      accessor: 'account.name'
+      Header: 'AccountId',
+      accessor: 'accountId',
+      show: false
     }, {
       Header: 'Description',
       accessor: 'name'
@@ -85,17 +87,20 @@ class TransactionOverview extends Component {
       accessor: 'category.name'
     }, {
       Header: 'Amount',
-      accessor: 'amount'
+      accessor: 'amount',
+      width: 80,
     }, {
       Header: 'Currency',
-      accessor: 'currency'
+      accessor: 'currency',
+      width: 80,
     }, {
       Header: 'Actions',
       sortable: false,
+      width: 80,
       Cell: rowData => {
         return (
           <span className="row-actions">
-            <Button className="edit" color="secondary" size="sm" onClick={() => this.onClickEdit(rowData.row)}><IconEdit /></Button>
+            <Link className="edit" to={"/accounts/" + rowData.row.accountId + "/transactions/" + rowData.row.id}><IconEdit /></Link>
             <Button className="delete" color="danger" size="sm" onClick={() => this.onClickDelete(rowData.row)}><IconDelete /></Button>
           </span>
         );
@@ -108,17 +113,17 @@ class TransactionOverview extends Component {
           <Col>
             <Breadcrumb tag="nav">
               <Link className="breadcrumb-item" to="/accounts">Accounts</Link>
-              <BreadcrumbItem active tag="span">Bank A</BreadcrumbItem>
+              <BreadcrumbItem active tag="span">{this._currentAccount.name}</BreadcrumbItem>
             </Breadcrumb>
 
             <Card className="filter-options text-white" color="secondary">
-                <form class="form-inline">
-                  <div class="form-group mx-sm-3 mb-2">
-                    <label for="search-query" class="sr-only">Search</label>
-                    <input type="text" class="form-control form-control-sm" id="search-query" placeholder="Search" />
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-sm mb-2">Submit</button>
-                  </form>
+              <form className="form-inline">
+                <div className="form-group mx-sm-3 mb-2">
+                  <label htmlFor="search-query" className="sr-only">Search</label>
+                  <input type="text" className="form-control form-control-sm" id="search-query" placeholder="Search" />
+                </div>
+                <button type="submit" className="btn btn-primary btn-sm mb-2">Submit</button>
+              </form>
             </Card>
 
             {this.checkAndDisplayErrors()}
@@ -133,7 +138,6 @@ class TransactionOverview extends Component {
                   pageSize={this.props.pageSize}
                   pages={this.props.pages}
                   sorted={this.props.sorted}
-                  filtered={this.props.filtered}
                   columns={columns}
                   onSortedChange={(newSorted, column, shiftKey) => {
                     this.props.sortTransactions(newSorted);
@@ -149,23 +153,24 @@ class TransactionOverview extends Component {
             </Card>
           </Col>
         </Row>
-        {this.checkAndDisplayTransaction()}
       </Container>
     );
   }
 }
 
 export default connect(
-  (state) => state.transactions,
+  (state) => {
+    const props = state.transactions;
+    props.accounts = state.accounts.accounts;
+    return props;
+  },
   {
     fetchTransactions,
-    showTransaction,
-    closeTransaction,
-    updateTransaction,
     deleteTransaction,
     sortTransactions,
+    setFilter,
     gotoPage,
     changePageSize
   }
-)(TransactionOverview);
+)(TransactionList);
 

@@ -13,8 +13,6 @@ const db = require('../models');
 // return all transactions
 router.get('/', function(req, res, next){
 
-  // TODO: handle filtering...
-
   // TODO: fix sorting by category and account (causes crash...)
 
   const limit = req.query.pageSize || 20;
@@ -29,7 +27,16 @@ router.get('/', function(req, res, next){
     });
   }
 
-  db.Transaction.findAndCountAll()
+  // handle basic filtering (TODO: add support for date ranges)
+  let filter = {};
+  if (req.query.filtered) {
+    const filtered = req.query.filtered || [];
+    filtered.forEach(item => {
+      Object.assign(filter, JSON.parse(item));
+    });
+  }
+
+  db.Transaction.findAndCountAll({ where: filter })
     .then((data) => {
       const page = req.query.page || 0;
       const pages = Math.ceil(data.count / limit);
@@ -37,9 +44,9 @@ router.get('/', function(req, res, next){
 
       db.Transaction.findAll({
         include: [
-          { model: db.Account, as: 'account', required: true, attributes: ['name'] },
           { model: db.Category, as: 'category', attributes: ['name'] }
         ],
+        where: filter,
         limit,
         offset,
         order

@@ -3,13 +3,9 @@ import axios from 'axios';
 export const FETCH_TRANSACTIONS = 'fetch_transactions';
 export const FETCH_TRANSACTIONS_SUCCESS = 'fetch_transactions_success';
 export const FETCH_TRANSACTIONS_ERROR = 'fetch_transactions_error';
-export const SHOW_TRANSACTION = 'show_transaction';
-export const CLOSE_TRANSACTION = 'close_transaction';
-export const UPDATE_TRANSACTION = 'update_transaction';
-export const UPDATE_TRANSACTION_SUCCESS = 'update_transaction_success';
-export const UPDATE_TRANSACTION_ERROR = 'update_transaction_error';
 export const DELETE_TRANSACTION = 'delete_transaction';
 export const DELETE_TRANSACTION_ERROR = 'delete_transaction_error';
+export const SET_FILTER = 'set_filter';
 export const SORT_COLUMN = 'sort_column';
 export const GOTO_PAGE = 'goto_page';
 export const CHANGE_PAGESIZE = 'change_pagesize';
@@ -21,7 +17,6 @@ const apiHost = 'http://localhost:4000';
 
 const initialState = {
   transactions: [],
-  shownTransaction: null,
   page: 0,
   pageSize: 20,
   pages: -1,
@@ -29,9 +24,8 @@ const initialState = {
     id: 'date',
     desc: true
   }],
-  filter: [],
+  filtered: [],
   isFetching: false,
-  isSaving: false,
   error: null
 };
 
@@ -52,34 +46,16 @@ export default function reducer(state = initialState, action) {
         error: null
       };
     case FETCH_TRANSACTIONS_ERROR:
-    case UPDATE_TRANSACTION_ERROR:
     case DELETE_TRANSACTION_ERROR:
       return {
         ...state,
         isFetching: false,
-        isSaving: false,
         error: action.payload
       };
-    case SHOW_TRANSACTION:
+    case SET_FILTER:
       return {
         ...state,
-        shownTransaction: action.payload,
-      };
-    case CLOSE_TRANSACTION:
-      return {
-        state,
-        shownTransaction: null
-      };
-    case UPDATE_TRANSACTION:
-      return {
-        ...state,
-        isSaving: true
-      };
-    case UPDATE_TRANSACTION_SUCCESS:
-      return {
-        ...state,
-        isSaving: false,
-        shownTransaction: null
+        filtered: action.payload
       };
     case SORT_COLUMN:
       return {
@@ -110,10 +86,10 @@ export function fetchTransactions() {
 
     const state = getState();
     const params = {
-      page: state.page,
-      pageSize: state.pageSize,
-      sorted: state.sorted,
-      filtered: state.filtered
+      page: state.transactions.page,
+      pageSize: state.transactions.pageSize,
+      sorted: state.transactions.sorted,
+      filtered: state.transactions.filtered
     };
 
     return axios.get(apiHost + '/transactions', { params })
@@ -127,41 +103,6 @@ export function fetchTransactions() {
         dispatch({
           type: FETCH_TRANSACTIONS_ERROR,
           payload: error.response
-        });
-      });
-  };
-}
-
-export function showTransaction(id) {
-  return function(dispatch) {
-    dispatch({
-      type: SHOW_TRANSACTION,
-      payload: id
-    });
-  };
-}
-
-export function closeTransaction() {
-  return function(dispatch) {
-    dispatch({
-      type: CLOSE_TRANSACTION
-    });
-  };
-}
-
-export function updateTransaction(params) {
-  return function(dispatch) {
-    dispatch({ type: UPDATE_TRANSACTION });
-
-    return axios.post(apiHost + '/transactions/' + params.id, params)
-      .then((response) => {
-        dispatch({ type: UPDATE_TRANSACTION_SUCCESS });
-        dispatch(fetchTransactions());
-      })
-      .catch((error) => {
-        dispatch({
-          type: UPDATE_TRANSACTION_ERROR,
-          payload: "Error updating transaction: " + (error.response && error.response.data ? error.response.data.error : error.message)
         });
       });
   };
@@ -181,6 +122,13 @@ export function deleteTransaction(id) {
           payload: "Error deleting transaction: " + (error.response && error.response.data ? error.response.data.error : error.message)
         });
       });
+  };
+}
+
+export function setFilter(filtered) {
+  return {
+    type: SET_FILTER,
+    payload: filtered
   };
 }
 
