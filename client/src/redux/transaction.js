@@ -1,4 +1,6 @@
 import axios from 'axios';
+import {reset} from 'redux-form';
+import notify from '../utils/notifications';
 
 export const FETCH_TRANSACTION = 'fetch_transaction';
 export const FETCH_TRANSACTION_SUCCESS = 'fetch_transaction_success';
@@ -85,12 +87,15 @@ export function saveTransaction(params) {
     return axios.post(apiHost + '/transactions/' + params.id, params)
       .then((response) => {
         dispatch({ type: SAVE_TRANSACTION_SUCCESS });
+        dispatch( reset('transaction') );
+        dispatch( notify.success('Transaction saved successfully') );
       })
       .catch((error) => {
         dispatch({
           type: SAVE_TRANSACTION_ERROR,
           payload: "Error saving transaction: " + (error.response && error.response.data ? error.response.data.error : error.message)
         });
+        dispatch( notify.error('Transaction failed to save') );
       });
   };
 }

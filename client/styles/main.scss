@@ -98,3 +98,36 @@ div.page-content {
   }
 }
 
+
+// Notifications
+
+.notifications-tr {
+  padding-right: 16px !important;
+
+  h4 {
+    color: $white !important;
+    text-shadow: none;
+  }
+  .notification {
+    border-top: none !important;
+  }
+  .notification-message {
+    color: $white !important;
+  }
+  .notification-dismiss {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+  }
+  .notification-success {
+    background-color: $success !important;
+  }
+  .notification-warning {
+    background-color: $warning !important;
+  }
+  .notification-error {
+    background-color: $danger !important;
+  }
+  .notification-info {
+    background-color: $info !important;
+  }
+}

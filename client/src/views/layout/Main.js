@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { withRouter, NavLink } from 'react-router-dom';
 import Routes from '../../config/routes';
+import Notifications from 'react-notification-system-redux';
 
 import Header from '../components/Header';
 
 import 'react-table/react-table.css';
 import '../../../styles/main.scss';
 
-export default class MainLayout extends Component {
+class MainLayout extends Component {
   render() {
     return (
       <div className="app">
@@ -26,9 +28,15 @@ export default class MainLayout extends Component {
           <div className="page-content">
             <Routes />
           </div>
+
+          <Notifications notifications={this.props.notifications} />
         </div>
       </div>
     );
   }
 }
+
+export default withRouter(connect(
+  state => ({ notifications: state.notifications })
+)(MainLayout));
 
