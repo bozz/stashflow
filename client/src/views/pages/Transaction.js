@@ -12,8 +12,17 @@ class Transaction extends React.Component {
   constructor(props) {
     super(props);
 
+    this._accountId = this.props.match.params.accountId;
     this._transactionId = this.props.match.params.id;
     this.props.fetchTransaction(this._transactionId);
+
+    this._currentAccount = this._getCurrentAccount(this._accountId);
+  }
+
+  _getCurrentAccount(accountId) {
+    return this.props.accounts.find((account) => {
+      return account.id == accountId;
+    });
   }
 
   getAccountsOptions() {
@@ -37,7 +46,7 @@ class Transaction extends React.Component {
           <Col>
             <Breadcrumb tag="nav">
               <Link className="breadcrumb-item" to="/accounts">Accounts</Link>
-              <Link className="breadcrumb-item" to={"/accounts/" + this.props.data.accountId + "/transactions"}>Account</Link>
+              <Link className="breadcrumb-item" to={"/accounts/" + this.props.data.accountId + "/transactions"}>{this._currentAccount.name}</Link>
               <BreadcrumbItem active tag="span">Transaction #{this._transactionId}</BreadcrumbItem>
             </Breadcrumb>
 
