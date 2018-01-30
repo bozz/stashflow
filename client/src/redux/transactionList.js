@@ -1,4 +1,5 @@
 import axios from 'axios';
+import notify from '../utils/notifications';
 
 export const FETCH_TRANSACTIONS = 'fetch_transactions';
 export const FETCH_TRANSACTIONS_SUCCESS = 'fetch_transactions_success';
@@ -32,9 +33,9 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_TRANSACTIONS:
-    case DELETE_TRANSACTION:
       return {
         ...state,
+        ...action.payload,
         isFetching: true
       };
     case FETCH_TRANSACTIONS_SUCCESS:
@@ -45,33 +46,17 @@ export default function reducer(state = initialState, action) {
         isFetching: false,
         error: null
       };
+    case DELETE_TRANSACTION:
+      return {
+        ...state,
+        isFetching: true
+      };
     case FETCH_TRANSACTIONS_ERROR:
     case DELETE_TRANSACTION_ERROR:
       return {
         ...state,
         isFetching: false,
         error: action.payload
-      };
-    case SET_FILTER:
-      return {
-        ...state,
-        filtered: action.payload
-      };
-    case SORT_COLUMN:
-      return {
-        ...state,
-        page: 0, // always goto first page on sort
-        sorted: action.payload.sorted
-      };
-    case GOTO_PAGE:
-      return {
-        ...state,
-        page: action.payload.page
-      };
-    case CHANGE_PAGESIZE:
-      return {
-        ...state,
-        pageSize: action.payload.pageSize
       };
     default:
       return state;
@@ -80,17 +65,22 @@ export default function reducer(state = initialState, action) {
 
 // Action Creators:
 
-export function fetchTransactions() {
+export function fetchTransactions(params) {
   return function(dispatch, getState) {
-    dispatch({ type: FETCH_TRANSACTIONS });
+    if (!params) {
+      const state = getState();
+      params = {
+        page: state.transactions.page,
+        pageSize: state.transactions.pageSize,
+        sorted: state.transactions.sorted,
+        filtered: state.transactions.filtered
+      }
+    }
 
-    const state = getState();
-    const params = {
-      page: state.transactions.page,
-      pageSize: state.transactions.pageSize,
-      sorted: state.transactions.sorted,
-      filtered: state.transactions.filtered
-    };
+    dispatch({
+      type: FETCH_TRANSACTIONS,
+      payload: params
+    });
 
     return axios.get(apiHost + '/transactions', { params })
       .then((response) => {
@@ -104,6 +94,7 @@ export function fetchTransactions() {
           type: FETCH_TRANSACTIONS_ERROR,
           payload: error.response
         });
+        dispatch(notify.error(error, 'Fetch Transactions Error'));
       });
   };
 }
@@ -115,53 +106,15 @@ export function deleteTransaction(id) {
     axios.delete(apiHost + '/transactions/' + id)
       .then((response) => {
         dispatch(fetchTransactions());
+        dispatch(notify.success('Transaction deleted successfully'));
       })
       .catch((error) => {
         dispatch({
           type: DELETE_TRANSACTION_ERROR,
           payload: "Error deleting transaction: " + (error.response && error.response.data ? error.response.data.error : error.message)
         });
+        dispatch(notify.error('Transaction delete failed'));
       });
-  };
-}
-
-export function setFilter(filtered) {
-  return {
-    type: SET_FILTER,
-    payload: filtered
-  };
-}
-
-export function sortTransactions(sorted) {
-  return function(dispatch) {
-    dispatch({
-      type: SORT_COLUMN,
-      payload: { sorted }
-    });
-
-    dispatch(fetchTransactions());
-  };
-}
-
-export function gotoPage(page) {
-  return function(dispatch) {
-    dispatch({
-      type: GOTO_PAGE,
-      payload: { page }
-    });
-
-    dispatch(fetchTransactions());
-  };
-}
-
-export function changePageSize(pageSize) {
-  return function(dispatch) {
-    dispatch({
-      type: CHANGE_PAGESIZE,
-      payload: { pageSize }
-    });
-
-    dispatch(fetchTransactions());
   };
 }
 

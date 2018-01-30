@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const Op = require('sequelize').Op;
 
 // const log = require('./../lib/logger').errorLog;
 // const cfg = require('config');
@@ -32,7 +33,15 @@ router.get('/', function(req, res, next){
   if (req.query.filtered) {
     const filtered = req.query.filtered || [];
     filtered.forEach(item => {
-      Object.assign(filter, JSON.parse(item));
+      const filterItem = JSON.parse(item);
+      if (filterItem.query) {
+        filter[Op.or] = [
+          { name: { $like: '%' + filterItem.query + '%' } },
+          { description: { $like: '%' + filterItem.query + '%' } }
+        ];
+      } else {
+        Object.assign(filter, filterItem);
+      }
     });
   }
 

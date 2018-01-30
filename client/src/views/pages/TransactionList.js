@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { reduxForm, Field } from 'redux-form';
 import ReactTable from 'react-table';
 import { UncontrolledAlert, Container, Row, Col, Breadcrumb, BreadcrumbItem, Card, CardHeader, CardBody, CardTitle, Button } from 'reactstrap';
 import IconDelete from 'react-icons/lib/fa/close';
 import IconEdit from 'react-icons/lib/fa/cog';
 import {
   fetchTransactions,
-  deleteTransaction,
-  sortTransactions,
-  setFilter,
-  gotoPage,
-  changePageSize
+  deleteTransaction
 } from '../../redux/transactionList';
 
 
@@ -20,43 +17,47 @@ class TransactionList extends Component {
     super(props);
 
     const currentAccountId = this.props.match.params.accountId;
-    this.props.setFilter([{ accountId: currentAccountId }]);
     this._currentAccount = this.props.accounts.find((account) => {
       return account.id == currentAccountId;
     });
   }
 
   componentDidMount() {
-    this.props.fetchTransactions();
+    this._filterTransactions();
   }
 
-  checkAndDisplayErrors() {
-    if (this.props.error) {
-      return (
-        <UncontrolledAlert color="danger">{this.props.error}</UncontrolledAlert>
-      )
+  _getFetchParams(params = {}) {
+    return Object.assign({
+      page: this.props.page,
+      pageSize: this.props.pageSize,
+      sorted: this.props.sorted,
+      filtered: this.props.filtered
+    }, params);
+  }
+
+  _sortTransactions(sorted) {
+    const params = this._getFetchParams({sorted})
+    this.props.fetchTransactions(params);
+  }
+
+  _filterTransactions(filtered = {}) {
+    const filterParams = [{accountId: this._currentAccount.id}];
+    for (let key in filtered) {
+      filterParams.push({[key]: filtered[key]});
     }
+    const params = this._getFetchParams({filtered: filterParams})
+    this.props.fetchTransactions(params);
   }
 
-  // checkAndDisplayTransaction() {
-  //   if (this.props.shownTransaction) {
-  //     const transactionData = this.props.transactions.find(item => {
-  //       return item.id === this.props.shownTransaction;
-  //     });
+  _paginateTransactions(page) {
+    const params = this._getFetchParams({page})
+    this.props.fetchTransactions(params);
+  }
 
-  //     return (
-  //       <Modal
-  //         className="transaction-modal"
-  //         title="Edit Transaction"
-  //         isOpen={true}
-  //         backdrop="static"
-  //         toggle={this.props.closeTransaction}
-  //       >
-  //         <TransactionView initialValues={transactionData} saveTransaction={this.props.updateTransaction} />
-  //       </Modal>
-  //     )
-  //   }
-  // }
+  _updatePageSize(pageSize) {
+    const params = this._getFetchParams({pageSize})
+    this.props.fetchTransactions(params);
+  }
 
   onClickDelete(row) {
     var result = confirm("Are you sure to delete transaction?");
@@ -107,6 +108,8 @@ class TransactionList extends Component {
       }
     }];
 
+    const { handleSubmit } = this.props;
+
     return (
       <Container fluid className="transaction-overview">
         <Row>
@@ -117,16 +120,14 @@ class TransactionList extends Component {
             </Breadcrumb>
 
             <Card className="filter-options text-white" color="secondary">
-              <form className="form-inline">
+              <form className="form-inline" onSubmit={handleSubmit(this._filterTransactions.bind(this))}>
                 <div className="form-group mx-sm-3 mb-2">
                   <label htmlFor="search-query" className="sr-only">Search</label>
-                  <input type="text" className="form-control form-control-sm" id="search-query" placeholder="Search" />
+                  <Field className="form-control form-control-sm" name="query" component="input" type="text" placeholder="Search" />
                 </div>
                 <button type="submit" className="btn btn-primary btn-sm mb-2">Submit</button>
               </form>
             </Card>
-
-            {this.checkAndDisplayErrors()}
 
             <Card>
               <CardBody>
@@ -140,13 +141,13 @@ class TransactionList extends Component {
                   sorted={this.props.sorted}
                   columns={columns}
                   onSortedChange={(newSorted, column, shiftKey) => {
-                    this.props.sortTransactions(newSorted);
+                    this._sortTransactions(newSorted);
                   }}
                   onPageChange={page => {
-                    this.props.gotoPage(page);
+                    this._paginateTransactions(page);
                   }}
                   onPageSizeChange={(pageSize, page) => {
-                    this.props.changePageSize(pageSize);
+                    this._updatePageSize(pageSize);
                   }}
                 />
               </CardBody>
@@ -164,13 +165,6 @@ export default connect(
     props.accounts = state.accounts.accounts;
     return props;
   },
-  {
-    fetchTransactions,
-    deleteTransaction,
-    sortTransactions,
-    setFilter,
-    gotoPage,
-    changePageSize
-  }
-)(TransactionList);
+  { fetchTransactions, deleteTransaction }
+) (reduxForm({form: 'transactionListFilter'})(TransactionList));
 

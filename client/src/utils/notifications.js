@@ -17,6 +17,10 @@ export default {
   },
 
   error: function(message, title="Error", config={}) {
+    if (typeof message !== 'string') {
+      // ...then assume 'message' is an error object
+      message = message.message ? message.message : (message.response && message.response.data ? message.response.data.error : message);
+    }
     const opts = Object.assign({}, defaultOpts, config, {message, title});
     return error(opts);
   }
