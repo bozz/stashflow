@@ -63,6 +63,17 @@ class Transaction extends React.Component {
                     </div>
                   </fieldset>
                   <fieldset className="form-group row">
+                    <label className="col-sm-2 col-form-label col-form-label-sm">Type:</label>
+                    <div className="col-sm-10">
+                      <Field className="form-control form-control-sm" name="type" component="select">
+                        <option>Invoice</option>
+                        <option>Cash Withdrawl</option>
+                        <option>Account Transfer</option>
+                        <option>SEPA Transfer</option>
+                      </Field>
+                    </div>
+                  </fieldset>
+                  <fieldset className="form-group row">
                     <label className="col-sm-2 col-form-label col-form-label-sm">Category:</label>
                     <div className="col-sm-10">
                       <Field className="form-control form-control-sm" name="categoryId" component="select">
