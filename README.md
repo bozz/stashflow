@@ -1,4 +1,4 @@
-# stashflow
+## stashflow
 
 Simple personal finance app for viewing, filtering, and visualizing transactions.
 
