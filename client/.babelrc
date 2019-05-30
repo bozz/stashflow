@@ -1,20 +1,5 @@
 {
-  "plugins": [
-    "transform-class-properties"
-  ],
-  "presets": [
-    "env",
-    "stage-0",
-    "react"
-  ],
-  "env": {
-    "development": {
-      "plugins": [
-        "react-hot-loader/babel"
-      ]
-    },
-    "production": {
-      "presets": ["react-optimize"]
-    }
-  }
+  "presets": ["@babel/preset-react"],
+  "plugins": ["@babel/plugin-proposal-class-properties"]
 }
+

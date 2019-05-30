@@ -1,6 +1,6 @@
-@import "~bootswatch/dist/slate/variables";
-@import "~bootstrap/scss/bootstrap.scss";
-@import "~bootswatch/dist/slate/bootswatch";
+@import "../node_modules/bootswatch/dist/slate/variables";
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../node_modules/bootswatch/dist/slate/bootswatch";
 
 body {
   padding-top: 4.5rem;

@@ -1,0 +1,28 @@
+root: true
+
+env:
+  node: true
+  es6: true
+  browser: true
+
+parser: "babel-eslint"
+
+extends:
+  - eslint:recommended
+  - plugin:react/recommended
+
+parserOptions:
+  ecmaVersion: 2018
+  sourceType: module
+
+plugins: ["react"]
+
+rules:
+  eol-last: error
+  eqeqeq: [error, allow-null]
+  indent: [error, 2, { SwitchCase: 1 }]
+  no-trailing-spaces: error
+  no-unused-vars: [error, { vars: all, args: none, ignoreRestSiblings: true }]
+  react/prop-types: 0
+  no-console: 'off'
+
