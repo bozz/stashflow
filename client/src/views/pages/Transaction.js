@@ -21,7 +21,7 @@ class Transaction extends React.Component {
 
   _getCurrentAccount(accountId) {
     return this.props.accounts.find((account) => {
-      return account.id == accountId;
+      return account.id === parseInt(accountId, 10);
     });
   }
 
@@ -116,8 +116,8 @@ export default connect((state) => {
   return {
     ...state.transaction,
     initialValues: state.transaction.data,
-    accounts: state.accounts.accounts,
-    categories: state.categories.categories
+    accounts: state.accounts.data,
+    categories: state.categories.data
   }}, { fetchTransaction, saveTransaction } )(reduxForm({form: 'transaction', enableReinitialize: true})(Transaction)
 );
 

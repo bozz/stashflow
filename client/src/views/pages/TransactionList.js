@@ -18,7 +18,7 @@ class TransactionList extends Component {
 
     const currentAccountId = this.props.match.params.accountId;
     this._currentAccount = this.props.accounts.find((account) => {
-      return account.id == currentAccountId;
+      return account.id === parseInt(currentAccountId, 10);
     });
   }
 
@@ -162,7 +162,7 @@ class TransactionList extends Component {
 export default connect(
   (state) => {
     const props = state.transactions;
-    props.accounts = state.accounts.accounts;
+    props.accounts = state.accounts.data;
     return props;
   },
   { fetchTransactions, deleteTransaction }

@@ -6,11 +6,24 @@ import Notifications from 'react-notification-system-redux';
 
 import Header from '../components/Header';
 
+import { fetchAccounts } from '../../redux/accounts';
+import { fetchCategories } from '../../redux/categories';
+
 import 'react-table/react-table.css';
 import '../../../styles/main.scss';
 
 class MainLayout extends Component {
+
+  componentDidMount() {
+    this.props.fetchAccounts();
+    this.props.fetchCategories();
+  }
+
   render() {
+    if (this.props.accountsFetching || this.props.categoriesFetching) {
+      return ( <h1>Loading...</h1> );
+    }
+
     return (
       <div className="app">
         <Header />
@@ -37,6 +50,11 @@ class MainLayout extends Component {
 }
 
 export default withRouter(connect(
-  state => ({ notifications: state.notifications })
+  state => ({
+    notifications: state.notifications,
+    accountsFetching: state.accounts.isFetching,
+    categoriesFetching: state.categories.isFetching
+  }),
+  { fetchAccounts, fetchCategories }
 )(MainLayout));
 

@@ -5,7 +5,7 @@ import { Container, Row, Col, Breadcrumb, BreadcrumbItem, Card, CardBody, CardTi
 
 class Accounts extends Component {
   getAccountComponents() {
-    return this.props.accounts.map((account) => {
+    return this.props.data.map((account) => {
       return <p key={account.id}><Link to={"/accounts/" + account.id + "/transactions"}>{account.name}</Link></p>
     });
   }
