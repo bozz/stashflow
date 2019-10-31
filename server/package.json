@@ -21,7 +21,7 @@
     "graphql-tools": "^2.24.0",
     "lodash": "^4.17.11",
     "merge-graphql-schemas": "^1.5.8",
-    "sequelize": "^4.43.1",
+    "sequelize": "^5.15.1",
     "sqlite3": "^4.0.8"
   },
   "devDependencies": {
