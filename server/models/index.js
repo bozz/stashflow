@@ -5,9 +5,10 @@ const Sequelize = require('sequelize');
 const basename = path.basename(module.filename);
 
 const models = {};
-const sequelize = new Sequelize('', '', '', {
+const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: './data/stashflow.sqlite'
+  storage: './data/stashflow.sqlite',
+  logging: false
 });
 
 fs
