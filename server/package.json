@@ -4,7 +4,7 @@
   "description": "server for stashflow app",
   "main": "server.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=production node server",
+    "dev": "cross-env NODE_ENV=development nodemon server",
     "db:init": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -21,5 +21,7 @@
     "sequelize-cli": "^5.5.1",
     "sqlite3": "^4.1.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
 }
