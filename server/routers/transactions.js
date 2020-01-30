@@ -2,18 +2,11 @@ const express = require('express');
 const router = express.Router();
 const Op = require('sequelize').Op;
 
-// const log = require('./../lib/logger').errorLog;
-// const cfg = require('config');
-
 const db = require('../models');
-
-
-// should extra infos (i.e. SQL query) be displayed in errors
-// const verboseApiErrors = cfg.get('dcf.verboseApiErrors');
+const formatErrorResponse = require('../lib/utils').formatErrorResponse;
 
 // return all transactions
-router.get('/', function(req, res, next){
-
+router.get('/', function(req, res) {
   // TODO: fix sorting by category and account (causes crash...)
 
   const limit = req.query.pageSize || 20;
@@ -24,7 +17,7 @@ router.get('/', function(req, res, next){
     const sorted = req.query.sorted || [];
     order = sorted.map(item => {
       const sort = JSON.parse(item);
-      return [sort.id, sort.desc ? 'DESC' : 'ASC']
+      return [sort.id, sort.desc ? 'DESC' : 'ASC'];
     });
   }
 
@@ -45,86 +38,71 @@ router.get('/', function(req, res, next){
     });
   }
 
-  db.Transaction.findAndCountAll({ where: filter })
-    .then((data) => {
-      const page = req.query.page || 0;
-      const pages = Math.ceil(data.count / limit);
-      const offset = limit * page;
+  const page = req.query.page || 0;
+  const offset = limit * page;
 
-      db.Transaction.findAll({
-        include: [
-          { model: db.Category, as: 'category', attributes: ['name'] }
-        ],
-        where: filter,
-        limit,
-        offset,
-        order
-      }).then(transactions => {
-        return res.json({
-          transactions,
-          count: data.count,
-          pages
-        });
-      }).catch(next);
-    }).catch(function(error) {
-      console.log("ERROR: ", error);
-      res.status(500).send('Internal Server Error');
-    });
+  db.Transaction.findAndCountAll({
+    where: filter,
+    include: [{ model: db.Category, as: 'category', attributes: ['name'] }],
+    limit,
+    offset,
+    order
+  })
+    .then(data => {
+      return res.json({
+        data: data.rows,
+        count: data.count,
+        pages: Math.ceil(data.count / limit)
+      });
+    })
+    .catch(err => formatErrorResponse(res, err));
 });
-
 
 // return specific transaction
-router.get('/:id', function(req, res, next){
-  db.Transaction.findOne({ where: { id: req.params.id } }).then(transaction => {
-    if (!transaction) {
-      return res.status(404).json({
-        error: "Transaction not found"
-      });
-    }
-    return res.json(transaction);
-  }).catch(next);
+router.get('/:id', function(req, res) {
+  db.Transaction.findByPk(req.params.id)
+    .then(instance => {
+      if (!instance) {
+        throw new Error('Transaction Not Found');
+      }
+      return res.json(instance);
+    })
+    .catch(err => formatErrorResponse(res, err));
 });
 
-// create new transaction
-router.post('/', function(req, res, next){
+// create transaction
+router.post('/', function(req, res) {
   db.Transaction.create(req.body, {
     fields: ['accountId', 'type', 'categoryId', 'date', 'amount', 'name', 'description']
-  }).then((transaction) => {
-    return res.json(transaction);
-  }).catch(next);
+  })
+    .then(instance => res.json(instance))
+    .catch(err => formatErrorResponse(res, err));
 });
 
-// update specific transaction
-router.post('/:id', function(req, res, next){
-  db.Transaction.findOne({ where: { id: req.params.id } }).then(transaction => {
-    if (!transaction) {
-      return res.status(404).json({
-        error: "Transaction not found"
-      });
-    }
-    transaction.update(req.body, {
-      fields: ['accountId', 'type', 'categoryId', 'date', 'amount', 'name', 'description']
-    }).then(() => {
-      return res.json(req.body);
-    });
-  }).catch(next);
+// update transaction
+router.post('/:id', function(req, res) {
+  db.Transaction.findByPk(req.params.id)
+    .then(instance => {
+      if (!instance) {
+        throw new Error('Transaction Not Found');
+      }
+      return instance.update(req.body);
+    })
+    .then(instance => res.json(instance))
+    .catch(err => formatErrorResponse(res, err));
 });
 
 // delete specific transaction
-router.delete('/:id', function(req, res, next){
-  db.Transaction.findOne({ where: { id: req.params.id } })
-    .then(transaction => {
-      if (!transaction) {
-        return res.status(404).json({
-          error: "Transaction not found"
-        });
+router.delete('/:id', function(req, res, next) {
+  db.Transaction.findByPk(req.params.id)
+    .then(instance => {
+      if (!instance) {
+        throw new Error('Transaction Not Found');
       }
-      return transaction.destroy();
+      return instance.destroy();
     })
-    .then(() => {
-      return res.json({ success: true });
-    }).catch(next);
+    .then(result => res.json({ success: !!result }))
+    .catch(err => formatErrorResponse(res, err));
 });
 
 module.exports = router;
-
