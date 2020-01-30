@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const controllers = require('./controllers');
+const routers = require('./routers');
 const models = require('./models');
 
 const app = express();
@@ -14,7 +14,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(controllers);
+app.use('/api', routers);
 
 models.sequelize.sync({}).then(() => {
   app.listen(4000, () => {
