@@ -1,0 +1,26 @@
+root: true
+
+env:
+  node: true
+  es6: true
+
+extends:
+  - eslint:recommended
+  - plugin:prettier/recommended
+
+parserOptions:
+  ecmaVersion: 2018
+  sourceType: module
+
+plugins: ["prettier"]
+
+rules:
+  eol-last: error
+  eqeqeq: [error, allow-null]
+  indent: [error, 2, { SwitchCase: 1 }]
+  no-prototype-builtins: 0
+  no-trailing-spaces: error
+  no-unused-vars: [error, { vars: all, args: none, ignoreRestSiblings: true }]
+  no-console: [warn, { allow: [error] }]
+  prettier/prettier: error
+
