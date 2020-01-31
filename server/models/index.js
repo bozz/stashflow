@@ -22,8 +22,6 @@ fs
     models[model.name] = model;
   });
 
-  console.log("KEYS", Object.keys(models));
-
 Object.keys(models).forEach(modelName => {
   if ('associate' in models[modelName]) {
     models[modelName].associate(models);
