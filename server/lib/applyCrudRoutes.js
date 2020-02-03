@@ -1,4 +1,4 @@
-const db = require('../models');
+const db = require('../lib/db');
 const formatErrorResponse = require('./utils').formatErrorResponse;
 
 /**
@@ -8,16 +8,19 @@ const formatErrorResponse = require('./utils').formatErrorResponse;
  * @param {Object} options
  */
 function applyCrudRoutes(router, modelName, options) {
-  if (!db.hasOwnProperty(modelName)) {
-    throw new Error('Invalid model: ' + modelName);
-  }
-
-  const dbModel = db[modelName];
+  const getModel = res => {
+    return db.models && db.models.hasOwnProperty(modelName) ? db.models[modelName] : false;
+  };
 
   // dbModel.describe().then(attrs => console.log(attrs));
+  // console.log('--->', dbModel.rawAttributes);
 
   // return all
   router.get('/', function(req, res) {
+    const dbModel = getModel();
+    if (!dbModel) {
+      return formatErrorResponse(res, new Error('CrudRoutes: Model NotFound: ' + modelName));
+    }
     dbModel
       .findAll()
       .then(records => res.json({ data: records }))
@@ -26,6 +29,10 @@ function applyCrudRoutes(router, modelName, options) {
 
   // return specific instance
   router.get('/:id', function(req, res) {
+    const dbModel = getModel();
+    if (!dbModel) {
+      return formatErrorResponse(res, new Error('CrudRoutes: Model NotFound: ' + modelName));
+    }
     dbModel
       .findByPk(req.params.id)
       .then(instance => {
@@ -39,6 +46,10 @@ function applyCrudRoutes(router, modelName, options) {
 
   // create instance
   router.post('/', function(req, res) {
+    const dbModel = getModel();
+    if (!dbModel) {
+      return formatErrorResponse(res, new Error('CrudRoutes: Model NotFound: ' + modelName));
+    }
     dbModel
       .create(req.body)
       .then(instance => res.json(instance))
@@ -47,6 +58,10 @@ function applyCrudRoutes(router, modelName, options) {
 
   // update instance
   router.post('/:id', function(req, res) {
+    const dbModel = getModel();
+    if (!dbModel) {
+      return formatErrorResponse(res, new Error('CrudRoutes: Model NotFound: ' + modelName));
+    }
     dbModel
       .findByPk(req.params.id)
       .then(instance => {
@@ -61,6 +76,10 @@ function applyCrudRoutes(router, modelName, options) {
 
   // delete instance
   router.delete('/:id', function(req, res) {
+    const dbModel = getModel();
+    if (!dbModel) {
+      return formatErrorResponse(res, new Error('CrudRoutes: Model NotFound: ' + modelName));
+    }
     dbModel
       .findByPk(req.params.id)
       .then(instance => {

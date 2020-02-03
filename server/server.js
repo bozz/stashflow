@@ -1,10 +1,9 @@
-const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const routers = require('./routers');
-const models = require('./models');
+const db = require('./lib/db');
 
 const app = express();
 
@@ -16,9 +15,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api', routers);
 
-models.sequelize.sync({}).then(() => {
+db.init({
+  dbConfig: {
+    dialect: 'sqlite',
+    storage: './data/stashflow.sqlite',
+    logging: false
+  }
+}).then(() => {
   app.listen(4000, () => {
     console.log('Server is running on port 4000');
   });
 });
-
