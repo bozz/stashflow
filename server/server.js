@@ -18,7 +18,7 @@ app.use('/api', routers);
 db.init({
   dbConfig: {
     dialect: 'sqlite',
-    storage: './data/stashflow.sqlite',
+    storage: './data/stashflow.db',
     logging: false
   }
 }).then(() => {
