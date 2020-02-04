@@ -5,10 +5,11 @@ const helmet = require('helmet');
 
 const routers = require('./routers');
 const db = require('./lib/db');
+const logger = require('./lib/logger');
 
 const app = express();
 
-// replace standard query parser, return raw query string (use URLSearchParams)
+// replace standard query parser, return raw query string (use URLSearchParams instead)
 app.set('query parser', queryString => queryString);
 
 app.use(cors());
@@ -28,6 +29,6 @@ db.init({
   }
 }).then(() => {
   app.listen(4000, () => {
-    console.log('Server is running on port 4000');
+    logger.info('Server is running on port 4000');
   });
 });

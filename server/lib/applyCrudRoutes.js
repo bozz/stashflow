@@ -29,6 +29,21 @@ function applyCrudRoutes(router, modelName, config) {
       .then(options => dbModel.findAndCountAll(options))
       .then(data => res.json({ data: data.rows, count: data.count }))
       .catch(error => formatErrorResponse(res, error));
+
+    // db.Transaction.findAndCountAll({
+    //   where: filter,
+    //   include: [{ model: db.Category, as: 'category', attributes: ['name'] }],
+    //   limit,
+    //   offset,
+    //   order
+    // })
+    //   .then(data => {
+    //     return res.json({
+    //       data: data.rows,
+    //       count: data.count,
+    //       pages: Math.ceil(data.count / limit)
+    //     });
+    //   })
   });
 
   // return specific instance

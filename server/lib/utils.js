@@ -1,4 +1,5 @@
 const Op = require('sequelize').Op;
+const logger = require('./logger');
 
 const utils = {
   /**
@@ -9,7 +10,7 @@ const utils = {
    */
   formatErrorResponse: (res, error) => {
     // TODO: handle errors more intelligently
-    console.error(error);
+    logger.error(error);
     return res.status(500).json({
       status: 500,
       error: error.name,
@@ -102,38 +103,6 @@ const utils = {
     if (Reflect.ownKeys(where).length) {
       resultOptions.where = where;
     }
-
-    // // handle basic filtering (TODO: add support for date ranges)
-    // let filter = {};
-    // if (req.query.filtered) {
-    //   const filtered = req.query.filtered || [];
-    //   filtered.forEach(item => {
-    //     const filterItem = JSON.parse(item);
-    //     if (filterItem.query) {
-    //       filter[Op.or] = [
-    //         { name: { $like: '%' + filterItem.query + '%' } },
-    //         { description: { $like: '%' + filterItem.query + '%' } }
-    //       ];
-    //     } else {
-    //       Object.assign(filter, filterItem);
-    //     }
-    //   });
-    // }
-    // db.Transaction.findAndCountAll({
-    //   where: filter,
-    //   include: [{ model: db.Category, as: 'category', attributes: ['name'] }],
-    //   limit,
-    //   offset,
-    //   order
-    // })
-    //   .then(data => {
-    //     return res.json({
-    //       data: data.rows,
-    //       count: data.count,
-    //       pages: Math.ceil(data.count / limit)
-    //     });
-    //   })
-    //   .catch(err => formatErrorResponse(res, err));
 
     return resultOptions;
   },
