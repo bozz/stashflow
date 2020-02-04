@@ -7,6 +7,9 @@ const db = require('./lib/db');
 
 const app = express();
 
+// replace standard query parser, return raw query string (use URLSearchParams)
+app.set('query parser', queryString => queryString);
+
 app.use(cors());
 
 // Parse incoming requests data (https://github.com/expressjs/body-parser)

@@ -1,19 +1,18 @@
 const db = require('../lib/db');
-const formatErrorResponse = require('./utils').formatErrorResponse;
+const utils = require('./utils');
+const formatErrorResponse = utils.formatErrorResponse;
 
 /**
  * Apply all basic CRUD routes to passed router.
  * @param {expres.Router} router
  * @param {String} modelName
- * @param {Object} options
+ * @param {Object} config
+ * @param {Array} config.queryFilter - array of columns, to filter with 'q' (combined with OR)
  */
-function applyCrudRoutes(router, modelName, options) {
+function applyCrudRoutes(router, modelName, config) {
   const getModel = res => {
     return db.models && db.models.hasOwnProperty(modelName) ? db.models[modelName] : false;
   };
-
-  // dbModel.describe().then(attrs => console.log(attrs));
-  // console.log('--->', dbModel.rawAttributes);
 
   // return all
   router.get('/', function(req, res) {
@@ -21,9 +20,14 @@ function applyCrudRoutes(router, modelName, options) {
     if (!dbModel) {
       return formatErrorResponse(res, new Error('CrudRoutes: Model NotFound: ' + modelName));
     }
+
+    const queryParams = new URLSearchParams(req.query);
+
     dbModel
-      .findAll()
-      .then(records => res.json({ data: records }))
+      .describe()
+      .then(attrs => utils.generateFindAllOptions(queryParams, attrs, config))
+      .then(options => dbModel.findAndCountAll(options))
+      .then(data => res.json({ data: data.rows, count: data.count }))
       .catch(error => formatErrorResponse(res, error));
   });
 
