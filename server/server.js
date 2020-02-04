@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const helmet = require('helmet');
 
 const routers = require('./routers');
 const db = require('./lib/db');
@@ -11,6 +12,7 @@ const app = express();
 app.set('query parser', queryString => queryString);
 
 app.use(cors());
+app.use(helmet());
 
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
