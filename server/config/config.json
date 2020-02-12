@@ -1,7 +1,7 @@
 {
   "development": {
     "dialect": "sqlite",
-    "storage": "./data/stashflow.sqlite"
+    "storage": "./data/stashflow.db"
   },
   "test": {
     "dialect": "sqlite",
@@ -9,6 +9,6 @@
   },
   "production": {
     "dialect": "sqlite",
-    "storage": "./data/stashflow.sqlite"
+    "storage": "./data/stashflow.db"
   }
 }

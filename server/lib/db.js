@@ -35,7 +35,7 @@ const db = {
     db.Sequelize = Sequelize;
     db.models = models;
 
-    return sequelize.sync({ force: true });
+    return sequelize.sync({ force: false });
   }
 };
 

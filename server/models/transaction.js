@@ -1,6 +1,6 @@
 module.exports = function(sequelize, DataTypes) {
   const Transaction = sequelize.define('Transaction', {
-    name: {
+    target: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -13,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     amount: {
-      type: DataTypes.DECIMAL(10,2),
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     },
     currency: DataTypes.STRING,

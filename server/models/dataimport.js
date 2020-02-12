@@ -4,7 +4,15 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    type: DataTypes.STRING
+    data: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    config: {
+      type: DataTypes.JSON,
+      allowNull: false,
+      devaultValue: {}
+    }
   });
 
   DataImport.associate = function(models) {

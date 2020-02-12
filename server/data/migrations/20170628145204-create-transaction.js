@@ -14,8 +14,8 @@ module.exports = {
         references: {
           model: 'Accounts',
           key: 'id',
-          as: 'accountId',
-        },
+          as: 'accountId'
+        }
       },
       categoryId: {
         type: Sequelize.INTEGER,
@@ -23,10 +23,10 @@ module.exports = {
         references: {
           model: 'Categories',
           key: 'id',
-          as: 'categoryId',
-        },
+          as: 'categoryId'
+        }
       },
-      name: {
+      target: {
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -40,7 +40,7 @@ module.exports = {
       },
       amount: {
         allowNull: false,
-        type: Sequelize.DECIMAL(10,2)
+        type: Sequelize.DECIMAL(10, 2)
       },
       currency: {
         type: Sequelize.STRING
@@ -54,8 +54,8 @@ module.exports = {
         references: {
           model: 'DataImports',
           key: 'id',
-          as: 'dataImportId',
-        },
+          as: 'dataImportId'
+        }
       },
       createdAt: {
         allowNull: false,

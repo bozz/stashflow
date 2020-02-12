@@ -12,8 +12,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      type: {
-        type: Sequelize.STRING
+      data: {
+        allowNull: false,
+        type: Sequelize.TEXT
+      },
+      config: {
+        allowNull: false,
+        type: Sequelize.JSON,
+        devaultValue: {}
       },
       createdAt: {
         allowNull: false,
