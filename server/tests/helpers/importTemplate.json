@@ -1,0 +1,35 @@
+{
+  "account": "bankA",
+  "skipLinesStart": 13,
+  "skipLinesEnd": 3,
+  "mapping": {
+    "date": {
+      "col": 0,
+      "processors": [
+        {
+          "type": "formatDate",
+          "sourceFormat": "DD.MM.YYYY"
+        }
+      ]
+    },
+    "target": 3,
+    "description": 8,
+    "type": 4,
+    "amount": {
+      "col": 11,
+      "processors": [
+        {
+          "type": "ifColEquals",
+          "col": 12,
+          "equals": "S",
+          "then": [
+            {
+              "type": "negateNumber"
+            }
+          ]
+        }
+      ]
+    },
+    "currency": 10
+  }
+}

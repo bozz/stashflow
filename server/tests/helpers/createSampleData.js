@@ -1,7 +1,7 @@
 function createSampleData(db) {
   db.models.Account.bulkCreate([
     {
-      key: 'bankA22',
+      key: 'bankA',
       type: 'Girokonto',
       name: 'Bank A',
       bank: 'Bank A',
@@ -10,7 +10,7 @@ function createSampleData(db) {
       description: 'sample bank account'
     },
     {
-      key: 'bankB22',
+      key: 'bankB',
       type: 'Girokonto',
       name: 'Bank B',
       bank: 'Bank B',

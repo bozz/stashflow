@@ -6,3 +6,5 @@ _archive
 client/build
 client/.cache
 server/data/*.db
+server/data/csv/*.csv
+server/data/importTemplates/*.json
