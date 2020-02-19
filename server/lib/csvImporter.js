@@ -36,7 +36,8 @@ const csvImporter = {
       .trim()
       .split('\n')
       .slice(skipStart, skipEnd)
-      .join('\n');
+      .join('\n')
+      .trim();
 
     const parsed = Papa.parse(csvLines);
 

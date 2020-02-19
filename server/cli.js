@@ -48,9 +48,59 @@ const importTemplate = {
         }
       ]
     },
-    target: 3,
-    description: 8,
-    type: 4,
+    target: {
+      col: 3,
+      processors: [
+        {
+          type: 'ifColEquals',
+          args: {
+            col: 12,
+            equals: 'H',
+            then: [
+              {
+                type: 'getColValue',
+                args: { col: 2 }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    description: {
+      col: 8,
+      processors: [
+        {
+          type: 'splitAndSlice',
+          args: {
+            separator: '\n',
+            begin: 1
+          }
+        }
+      ]
+    },
+    type: {
+      col: 8,
+      processors: [
+        {
+          type: 'splitAndSlice',
+          args: {
+            separator: '\n',
+            begin: 0,
+            end: 1
+          }
+        },
+        {
+          type: 'applyMapping',
+          args: {
+            mapping: {
+              Dauerauftragsbelast: 'Dauerauftrag',
+              Dauerauftragsgutschr: 'Dauerauftrag',
+              Basislastschrift: 'Lastschrift'
+            }
+          }
+        }
+      ]
+    },
     amount: {
       col: 11,
       processors: [
@@ -113,10 +163,7 @@ if (args && args._.length) {
   }
 }
 
-/**
- * Notes for template config JSON
- * - skipLinesStart (Integer)
- * - skipLinesEnd (Integer)
- * - mapping (Object) from CSV to DB columns (column processors?)
- * - account (String) key or name of account to import to
- */
+// TODO: Missing Import Processors:
+//
+// - getColValue: returns value of specified column
+// - splitAndSlice: split on delimiter - slice array - join
