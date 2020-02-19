@@ -1,6 +1,8 @@
 // const Sequelize = require('sequelize');
 const Papa = require('papaparse');
 
+const importProcessors = require('../lib/importProcessors/');
+
 const csvImporter = {
   /**
    * Import CSV file
@@ -43,22 +45,7 @@ const csvImporter = {
       throw new Error('Invalid account specified in importTemplate - ' + importTemplate.account);
     }
 
-    let col;
-    const mappedRows = parsed.data.map(row => {
-      const mappedRow = { accountId: account.id };
-      Object.keys(importTemplate.mapping).forEach(mappingKey => {
-        col = importTemplate.mapping[mappingKey];
-        if (typeof col === 'object') {
-          col = importTemplate.mapping[mappingKey].col;
-        }
-
-        if (typeof col !== undefined) {
-          mappedRow[mappingKey] = row[col];
-        }
-      });
-
-      return mappedRow;
-    });
+    const mappedRows = parsed.data.map(row => _mapRow(row, importTemplate.mapping, account.id));
 
     if (options.preview) {
       return mappedRows;
@@ -98,6 +85,63 @@ const csvImporter = {
     // const results = {};
     // return results;
   }
+};
+
+/**
+ * @private
+ * @param {array} row - current CSV row as array
+ * @param {object} mapping - mapping from importTemplate
+ * @param {number} accountId - Account ID from DB
+ * @returns {object} returns single row mapped to DB properties
+ */
+const _mapRow = function(row, mapping, accountId) {
+  let col, colValue, mapValue, processors;
+  const mappedRow = { accountId: accountId };
+  Object.keys(mapping).forEach(mappingKey => {
+    mapValue = mapping[mappingKey];
+    processors = [];
+    if (typeof mapValue === 'object') {
+      col = mapValue.col;
+      processors = mapValue.processors || [];
+    } else {
+      col = mapValue;
+    }
+
+    if (typeof col !== undefined) {
+      colValue = row[col];
+    }
+
+    if (processors.length) {
+      colValue = _runProcessors(processors, colValue, row);
+    }
+
+    mappedRow[mappingKey] = colValue;
+  });
+
+  return mappedRow;
+};
+
+/**
+ * @private
+ * @param {object[]} processors - array of processors
+ * @param {*} value
+ * @param {array} row - current CSV row as array
+ * @returns {*} returns updated value
+ */
+const _runProcessors = function(processors, value, row) {
+  if (!processors.length) {
+    return value;
+  }
+
+  return processors.reduce((result, pConfig) => {
+    const processor = importProcessors[pConfig.type];
+
+    if (!processor) {
+      throw new Error('Processor not found - ' + pConfig.type);
+    }
+
+    return processor.run(result, row, pConfig.args, _runProcessors);
+  }, value);
 };
 
 module.exports = csvImporter;

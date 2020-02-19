@@ -3,6 +3,32 @@ const csvImporter = require('../../lib/csvImporter');
 const dbHelper = require('../helpers/testdb');
 const createSampleData = require('../helpers/createSampleData');
 
+jest.mock('../../lib/importProcessors/', () => {
+  return {
+    addOne: {
+      run: val => {
+        if (typeof val === 'string') {
+          val = parseFloat(val.replace(',', '.').replace(' ', ''));
+        }
+        return val + 1;
+      }
+    },
+
+    multiply: {
+      run: (val, row, args) => {
+        if (!args.factor) {
+          throw new Error('Missing Arg');
+        }
+        if (typeof val === 'string') {
+          val = parseFloat(val.replace(',', '.').replace(' ', ''));
+        }
+
+        return val * args.factor;
+      }
+    }
+  };
+});
+
 const sampleCsv = `
 "MyBank"
 "Datum";"Auftragsgeber";"Empfänger";"Buchungsart";"Verwendungszweck";"Währung";"Betrag";" "
@@ -31,6 +57,10 @@ describe('csvImporter::import', () => {
   beforeAll(async () => {
     db = await dbHelper.init();
     await createSampleData(db);
+  });
+
+  beforeEach(() => {
+    jest.resetModules();
   });
 
   it('should throw error if no db instance passed', async () => {
@@ -108,6 +138,60 @@ describe('csvImporter::import', () => {
       expect(result).toBeTruthy();
       expect(result).toHaveLength(2);
       expect(result[0].date).toEqual('02.01.2020');
+    });
+  });
+
+  describe('with column processors', () => {
+    it('should throw error if processor not found', async () => {
+      let err;
+      try {
+        const template = { ...importTemplate };
+        template.mapping = { ...importTemplate.mapping };
+        template.mapping.date = {
+          col: 0,
+          processors: [{ type: 'unknownProcessor', args: {} }]
+        };
+
+        await csvImporter.import(db, sampleCsv, template, { preview: true });
+      } catch (e) {
+        err = e;
+      }
+
+      expect(err).toBeDefined();
+      expect(err.message).toBeDefined();
+      expect(err.message).toContain('Processor not found');
+    });
+
+    it('should produce correct date format with valid config', async () => {
+      const template = { ...importTemplate };
+      template.mapping = { ...importTemplate.mapping };
+      template.mapping.amount = {
+        col: 6,
+        processors: [{ type: 'multiply', args: { factor: 2 } }]
+      };
+
+      const result = await csvImporter.import(db, sampleCsv, template, { preview: true });
+
+      expect(result).toBeTruthy();
+      expect(result).toHaveLength(2);
+      expect(result[0].amount).toEqual(151.98);
+      expect(result[1].amount).toEqual(2400);
+    });
+
+    it('should support multiple processors in series', async () => {
+      const template = { ...importTemplate };
+      template.mapping = { ...importTemplate.mapping };
+      template.mapping.amount = {
+        col: 6,
+        processors: [{ type: 'addOne' }, { type: 'multiply', args: { factor: 2 } }]
+      };
+
+      const result = await csvImporter.import(db, sampleCsv, template, { preview: true });
+
+      expect(result).toBeTruthy();
+      expect(result).toHaveLength(2);
+      expect(result[0].amount).toEqual(153.98);
+      expect(result[1].amount).toEqual(2402);
     });
   });
 });

@@ -7,6 +7,7 @@ const fs = require('fs');
 let readFile = util.promisify(fs.readFile);
 let accessFile = util.promisify(fs.access);
 
+const db = require('./lib/db');
 const csvImporter = require('./lib/csvImporter');
 
 const args = yargs
@@ -34,7 +35,7 @@ const args = yargs
 const importTemplate = {
   account: 'bankA',
   skipLinesStart: 13,
-  skipLinesEnd: 3,
+  skipLinesEnd: 2,
   mapping: {
     date: {
       col: 0,
@@ -42,7 +43,7 @@ const importTemplate = {
         {
           type: 'formatDate',
           args: {
-            sourceFormat: 'DD.MM.YYYY'
+            format: 'dd.MM.yyyy'
           }
         }
       ]
@@ -53,6 +54,7 @@ const importTemplate = {
     amount: {
       col: 11,
       processors: [
+        { type: 'convertFloat' },
         {
           type: 'ifColEquals',
           args: {
@@ -86,10 +88,20 @@ if (args && args._.length) {
         .then(fileData => {
           const data = fileData.toString();
 
-          return csvImporter.import(data, importTemplate, {
-            file: args.file,
-            preview: args.p
-          });
+          return db
+            .init({
+              dbConfig: {
+                dialect: 'sqlite',
+                storage: './data/stashflow.db',
+                logging: false
+              }
+            })
+            .then(() => {
+              return csvImporter.import(db, data, importTemplate, {
+                file: args.file,
+                preview: args.p
+              });
+            });
         })
         .then(result => {
           console.log(result);
